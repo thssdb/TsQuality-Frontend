@@ -1,0 +1,604 @@
+openapi: 3.1.0
+info:
+  title: TsQuality接口文档
+  description: |-
+    TsQuality接口文档
+  license:
+      name: MIT
+  version: 1.0.0
+servers:
+  - url: http://localhost:8888
+tags:
+  - name: task
+    description: 历史数据质量分析任务相关
+  - name: iotdb-config
+    description: IoTDB配置相关
+paths:
+  /task:
+    post:
+      tags:
+        - task
+      summary: 新建一个数据质量分析任务
+      description: 新建一个数据质量分析任务
+      operationId: addTask
+      requestBody: 
+        description: 创建一个数据质量分析任务
+        content: 
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Task'
+        required: true
+      responses:
+        '200':
+          description: 创建成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Task'
+    put:
+      tags:
+        - task
+      summary: 更新一个已存在的数据质量分析任务
+      description: 更新一个已存在的数据质量分析任务
+      operationId: updateTask
+      requestBody: 
+        description: 更新一个数据质量分析任务
+        content: 
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Task'
+        required: true
+      responses:
+        '200':
+          description: 更新成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Task'
+  /task/{taskId}:
+    get:
+      tags:
+        - task
+      summary: 通过ID查询任务
+      description: 通过ID查询任务
+      operationId: getTaskById
+      parameters: 
+        - name: taskId
+          in: path
+          description: 要检索的任务ID
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: 查询成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Task'
+        '400':
+          description: 任务ID无效
+        '404':
+          description: 未找到指定ID对应的任务
+    post:
+      tags:
+        - task
+      summary: 用表格数据更新数据质量分析任务
+      description: ''
+      operationId: updateTaskWithForm
+      parameters:
+        - name: taskId
+          in: path
+          description: 任务ID
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: data
+          in: body
+          description: 要更新的数据
+          schema:
+            $ref: '#/components/schemas/Task'
+      responses:
+        '200':
+          description: 更新成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Task'
+        '400':
+          description: 任务ID无效
+        '404':
+          description: 未找到指定ID对应的任务
+    delete:
+      tags:
+        - task
+      summary: 删除一个任务
+      description: 删除一个数据质量分析任务
+      operationId: deleteTask
+      parameters:
+        - name: token
+          in: header
+          description: 用户token
+          required: true
+          schema:
+            type: string
+        - name: taskId
+          in: path
+          description: 要删除的任务ID
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: 删除成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Task'
+        '400':
+          description: 任务ID无效
+        '404':
+          description: 未找到指定ID对应的任务
+  /iotdb-config:
+    post:
+      tags:
+        - iotdb-config
+      summary: 新建一个IoTDB配置
+      description: 新建一个IoTDB配置
+      operationId: addIoTDBConfig
+      requestBody: 
+        description: 创建一个IoTDB配置
+        content: 
+          application/json:
+            schema:
+              $ref: '#/components/schemas/IoTDBConfig'
+        required: true
+      responses:
+        '200':
+          description: 创建成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IoTDBConfig'
+  /iotdb-config/{icid}/tasks:
+    get:
+      tags:
+        - iotdb-config
+      summary: 获取所有历史分析任务
+      description: 获取指定IoTDB配置下的所有历史分析任务
+      operationId: getAllTasks
+      parameters:
+        - name: icid
+          in: path
+          description: IoTDB配置ID
+          required: true
+          schema:
+            type: integer
+            format: int64
+            example: 103
+        - name: page_index
+          in: query
+          description: 分页获取数据，当前页的页码
+          required: false
+          schema:
+            type: integer
+            example: 1
+        - name: page_size
+          in: query
+          description: 分页获取数据，每页数据量
+          required: false
+          schema:
+            type: integer
+            example: 10
+      responses:
+        '200':
+          description: 获取成功
+          content:
+            application/json:
+              schema:
+                name: response
+                type: object
+                required:
+                  - code
+                  - message
+                properties:
+                  code:
+                    type: integer
+                    description: 自定义返回码（非http状态码）
+                    example: 10001
+                  message:
+                    type: string
+                    description: 返回结果描述
+                    example: get success
+                  type:
+                    type: string
+                    description: 返回结果类型
+                    enum:
+                      - success
+                      - error
+                    example: success
+                  data:
+                    type: object
+                    required:
+                      - total
+                      - tasks
+                    properties:
+                      total:
+                        type: integer
+                        description: 该 IoTDB Config 下的历史分析任务总数
+                        example: 39
+                      page_size:
+                        type: integer
+                        description: 按页返回数据，每页的返回的数据量（历史分析任务个数）
+                        example: 10
+                      page_index:
+                        type: integer
+                        description: 当前页码
+                        example: 1
+                      page_count:
+                        type: integer
+                        description: 总页数
+                        example: 10
+                      tasks:
+                        type: array
+                        description: 历史分析任务列表
+                        items:
+                          $ref: '#/components/schemas/Task'
+        '400':
+          description: IoTDB配置ID无效
+        '404':
+          description: 未找到指定ID对应的IoTDB配置
+
+  /iotdb-config/{icid}/aggregate-info:
+    get:
+      tags:
+        - iotdb-config
+      summary: 获取一个IoTDB实例的聚合信息
+      description: 包括：时间序列总数、设备总数、数据库总数、对应历史分析总数
+      operationId: getIoTDBAggregateInfo
+      parameters:
+        - name: icid
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+            example: 105
+      responses:
+        '200':
+          description: 获取成功
+          content:
+            application/json:
+              schema:
+                name: response
+                type: object
+                required:
+                  - code
+                  - message
+                properties:
+                  code:
+                    type: integer
+                    description: 自定义返回码（非http状态码）
+                    example: 10001
+                  message:
+                    type: string
+                    description: 返回结果描述
+                    example: get success
+                  type:
+                    type: string
+                    description: 返回结果类型
+                    enum:
+                      - success
+                      - error
+                    example: success
+                  data:
+                    type: object
+                    required:
+                      - time_series_num
+                      - device_num
+                      - database_num
+                      - analysis_num
+                    properties:
+                      time_series_num:
+                        type: integer
+                        description: 时间序列总数
+                        example: 46572
+                      device_num:
+                        type: integer
+                        description: 设备总数
+                        example: 6554
+                      database_num:
+                        type: integer
+                        description: 数据库总数
+                        example: 724
+                      analysis_num:
+                        type: integer
+                        description: 历史分析综述
+                        example: 28
+        '400':
+          description: IoTDB配置ID无效
+        '404':
+          description: 未找到指定ID对应的IoTDB配置
+
+  /iotdb-config/{icid}/ts-data-size:
+    get:
+      tags:
+        - iotdb-config
+      summary: 获取所有时间序列数据量
+      description: 按照数据量排序，获取所有时间序列路径和对应的数据量
+      operationId: getTimeseriesDataSize
+      parameters:
+        - name: icid
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+            example: 105
+        - name: page_index
+          in: query
+          description: 分页获取数据，当前页的页码
+          required: false
+          schema:
+            type: integer
+            example: 1
+        - name: page_size
+          in: query
+          description: 分页获取数据，每页数据量
+          required: false
+          schema:
+            type: integer
+            example: 10
+      responses:
+        '200':
+          description: 获取成功
+          content: 
+            appliction/json:
+              schema:
+                name: response
+                type: object
+                required:
+                  - code
+                  - message
+                properties:
+                  code:
+                    type: integer
+                    description: 自定义返回码（非http状态码）
+                    example: 10001
+                  message:
+                    type: string
+                    description: 返回结果描述
+                    example: get success
+                  type:
+                    type: string
+                    description: 返回结果类型
+                    enum:
+                      - success
+                      - error
+                    example: error
+                  data:
+                    type: object
+                    properties:
+                      total:
+                        type: integer
+                        description: 该 IoTDB Config 下的时间序列总数
+                        example: 37152
+                      page_size:
+                        type: integer
+                        description: 按页返回数据，每页的返回的数据量（每页时间序列个数）
+                        example: 10
+                      page_index:
+                        type: integer
+                        description: 当前页码
+                        example: 1
+                      page_count:
+                        type: integer
+                        description: 总页数
+                        example: 10
+                      info:
+                        type: array
+                        items: 
+                          name: time_series_info
+                          type: object
+                          properties:
+                            name:
+                              type: string
+                              description: 时间序列路径
+                              example: root.sg1.d1.s1
+                            data_size:
+                              type: number
+                              description: 数据量
+                              example: 47563
+                          
+
+
+
+
+components:
+  schemas:
+    IoTDBConfig:
+      type: object
+      properties: 
+        icid:
+          type: integer
+          format: int64
+          description: IoTDB配置id
+          example: 10000
+        hostname:
+          type: string
+          description: IoTDB服务器主机名
+          example: 192.168.1.3
+        port:
+          type: integer
+          description: IoTDB服务器端口号
+          example: 5173
+        username:
+          type: string
+          description: IoTDB用户名
+          example: root
+        password:
+          type: string
+          description: IoTDB用户密码
+          example: root
+    Task:
+      type: object
+      properties:
+        tid:
+          type: integer
+          format: int64
+          description: 任务id
+          example: 10
+        icid:
+          type: integer
+          format: int64
+          description: 关联的IoTDB配置id
+          example: 108772
+        timeSeries:
+          type: string
+          description: 时间序列路径
+          example: root.sg1.d1.s1
+        startTime:
+          type: integer
+          format: int64
+          description: 时间过滤条件的起始时间戳
+          example: 1685092553
+        endTime:
+          type: integer
+          format: int64
+          description: 时间过滤条件的起始时间戳
+          example: 1685092553
+        valueFilter:
+          type: string
+          description: 值过滤条件
+          example: s0 > 100 and s1 < 300
+    TaskResult:
+      type: object
+      description: 分析结果
+      properties: 
+        trid:
+          type: integer
+          format: int64
+          description: 任务分析结果id
+          example: 10001
+        tid:
+          type: integer
+          format: int64
+          description: 对应分析任务id
+          example: 10
+        completeness:
+          type: number
+          format: float
+          minimum: 0
+          maximum: 1
+          description: 完整性分析结果
+          example: 0.93
+        consistency:
+          type: number
+          format: float
+          minimum: 0
+          maximum: 1
+          description: 一致性分析结果
+          example: 0.81
+        timeliness:
+          type: number
+          format: float
+          minimum: 0
+          maximum: 1
+          description: 时效性分析结果
+          example: 0.79
+        validity:
+          type: number
+          format: float
+          minimum: 0
+          maximum: 1
+          description: 有效性分析结果
+          example: 0.68
+    Series:
+      type: object
+      description: 一段数据序列，包括时间戳列和数值列
+      properties: 
+        time:
+          type: integer
+          format: int64
+          description: 时间戳
+          example: 1685092553
+        value:
+          type: number
+          description: 数据值
+          example: 70.3
+    OriginPoints:
+      type: object
+      descripiton: 分析结果中的原始时间序列
+      properties:
+        opid:
+          type: integer
+          format: int64
+          description: 原始时间序列id
+          example: 165173
+        trid:
+          type: integer
+          format: int64
+          description: 对应的分析结果id
+          example: 100000
+        series:
+          type: array
+          items:
+            $ref: '#/components/schemas/Series'
+    VariationPoints:
+      type: object
+      descripiton: 分析结果中的值变化序列
+      properties:
+        vpid:
+          type: integer
+          format: int64
+          description: 值变化序列id
+          example: 165173
+        trid:
+          type: integer
+          format: int64
+          description: 对应的分析结果id
+          example: 100000
+        series:
+          type: array
+          items:
+            $ref: '#/components/schemas/Series'
+    SpeedPoints:
+      type: object
+      descripiton: 分析结果中的值变化速度序列
+      properties:
+        spid:
+          type: integer
+          format: int64
+          description: 值变化速度序列id
+          example: 165173
+        trid:
+          type: integer
+          format: int64
+          description: 对应的分析结果id
+          example: 100000
+        series:
+          type: array
+          items:
+            $ref: '#/components/schemas/Series'
+    AccelerationPoints:
+      type: object
+      descripiton: 分析结果中的值变化加速度序列
+      properties:
+        apid:
+          type: integer
+          format: int64
+          description: 值变化加速度序列id
+          example: 165173
+        trid:
+          type: integer
+          format: int64
+          description: 对应的分析结果id
+          example: 100000
+        series:
+          type: array
+          items:
+            $ref: '#/components/schemas/Series'
+            
