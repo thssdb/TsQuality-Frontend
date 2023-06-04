@@ -12,7 +12,7 @@
         </n-icon>
       </div>
 
-      <div class="mt-2 ml-4">
+      <div class="mt-2 ml-4" @click="reloadPage">
         <n-icon size="18">
           <ReloadOutlined />
         </n-icon>
@@ -48,7 +48,7 @@ import {
   UserOutlined,
 } from '@vicons/antd'
 import { NAvatar, NDropdown, useDialog } from 'naive-ui'
-import { ref } from 'vue'
+import { ref, unref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 
 defineProps({
@@ -92,6 +92,12 @@ const avatarSelect = (key: Number) => {
       logout()
       break
   }
+}
+
+const reloadPage = () => {
+  router.push({
+    path: '/redirect' + unref(route).fullPath,
+  })
 }
 </script>
 

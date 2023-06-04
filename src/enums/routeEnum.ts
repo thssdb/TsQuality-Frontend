@@ -1,6 +1,8 @@
 export enum RouteEnum {
   ROOT = 'root',
 
+  REDIRECT = 'redirect',
+
   LOGIN = 'login',
 
   DASHBOARD = 'dashboard',

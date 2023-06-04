@@ -1,7 +1,7 @@
 <template>
   <n-menu
     :mode="mode"
-    :indent="24"
+    :indent="36"
     :options="menus"
     :collapsed="collapsed"
     :collapsed-width="64"
@@ -105,8 +105,6 @@ function clickMenuItem(key: string) {
 watch(
   () => route.fullPath,
   () => {
-    console.log(route.fullPath)
-    console.log(route.name)
     updateMenu()
   }
 )

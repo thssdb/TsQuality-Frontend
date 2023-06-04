@@ -35,7 +35,6 @@ import {
 } from 'echarts/components'
 import { use } from 'echarts/core'
 import { SVGRenderer } from 'echarts/renderers'
-import { EChartsOption } from 'echarts/types/dist/shared'
 import { ref } from 'vue'
 import VChart from 'vue-echarts'
 
@@ -52,7 +51,7 @@ use([
 const height = '300px'
 const width = '100%'
 
-const barChartOption = ref<EChartsOption>({
+const barChartOption = ref({
   title: {
     left: 'center',
     text: '数据分布',

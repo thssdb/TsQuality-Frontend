@@ -7,14 +7,28 @@ import { ref } from 'vue'
 import { use } from 'echarts/core'
 import { SVGRenderer } from 'echarts/renderers'
 import { BarChart } from 'echarts/charts'
-import { TitleComponent, GridComponent } from 'echarts/components'
+import {
+  TitleComponent,
+  GridComponent,
+  TooltipComponent,
+} from 'echarts/components'
 import VChart from 'vue-echarts'
 
-use([SVGRenderer, BarChart, TitleComponent, GridComponent])
+const props = defineProps({
+  names: {
+    type: Array,
+    default: [],
+  },
+  dataSizes: {
+    type: Array,
+    default: [],
+  },
+})
 
-const height = '300px'
+use([SVGRenderer, BarChart, TitleComponent, GridComponent, TooltipComponent])
+
 const width = '100%'
-
+const height = '300px'
 const option = ref<any>({
   title: {
     left: 'center',
@@ -23,20 +37,17 @@ const option = ref<any>({
   xAxis: {},
   yAxis: {
     inverse: true,
-    data: [
-      'root.sg1.d1.s1',
-      'root.sg1.d1.s2',
-      'root.sg1.d2.s2',
-      'root.sg1.d2.s2',
-      'root.sg2.d1.s1',
-    ],
+    data: props.names,
   },
   series: [
     {
       name: '数据量',
       type: 'bar',
-      data: [23178, 20134, 15691, 10062, 8535],
+      data: props.dataSizes,
     },
   ],
+  tooltip: {
+    show: true,
+  },
 })
 </script>

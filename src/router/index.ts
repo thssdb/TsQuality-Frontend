@@ -2,6 +2,7 @@ import { RouteRecordRaw, createRouter, createWebHistory } from 'vue-router'
 import { App } from 'vue'
 import { PageEnum } from '../enums/pageEnum'
 import { RouteEnum } from '@/enums/routeEnum'
+import { Layout } from './constants'
 
 export const RootRoute: RouteRecordRaw = {
   path: '/',
@@ -9,11 +10,24 @@ export const RootRoute: RouteRecordRaw = {
   redirect: PageEnum.HOME,
 }
 
+export const RedirectRoute: RouteRecordRaw = {
+  path: '/redirect',
+  name: RouteEnum.REDIRECT,
+  component: Layout,
+  children: [
+    {
+      path: '/redirect/:path(.*)',
+      name: RouteEnum.REDIRECT,
+      component: () => import('@/pages/redirect/index.vue'),
+    },
+  ],
+}
+
 export const DashboardRoute: RouteRecordRaw = {
   path: '/dashboard',
   name: RouteEnum.DASHBOARD,
-  redirect: '/dashoard/console',
-  component: () => import('../layouts/index.vue'),
+  redirect: '/dashboard/console',
+  component: Layout,
   children: [
     {
       path: 'console',
@@ -27,7 +41,7 @@ export const HistoryRoute: RouteRecordRaw = {
   path: '/history',
   name: RouteEnum.HISTORY,
   redirect: '/history/index',
-  component: () => import('../layouts/index.vue'),
+  component: Layout,
   children: [
     {
       path: 'index',
@@ -41,11 +55,12 @@ export const AnalyzeRoute: RouteRecordRaw = {
   path: '/analyze',
   name: RouteEnum.ANALYZE,
   redirect: '/analyze/overview',
-  component: () => import('../layouts/index.vue'),
+  component: Layout,
   children: [
     {
       path: 'overview',
       name: RouteEnum.ANALYZE_DETAIL,
+      // component: () => import('../pages/analysis/overview/overview.vue'),
       component: () => import('../pages/analysis/overview/overview.vue'),
     },
     {
@@ -60,7 +75,7 @@ export const UserRoute: RouteRecordRaw = {
   path: '/user',
   name: PageEnum.USER,
   redirect: '/user/index',
-  component: () => import('../layouts/index.vue'),
+  component: Layout,
   children: [
     {
       path: 'index',
@@ -74,7 +89,7 @@ export const SettingsRoute: RouteRecordRaw = {
   path: '/settings',
   name: PageEnum.SETTINGS,
   redirect: '/settings/index',
-  component: () => import('../layouts/index.vue'),
+  component: Layout,
   children: [
     {
       path: 'index',
@@ -86,6 +101,7 @@ export const SettingsRoute: RouteRecordRaw = {
 
 export const constantRouter: any[] = [
   RootRoute,
+  RedirectRoute,
   DashboardRoute,
   HistoryRoute,
   AnalyzeRoute,

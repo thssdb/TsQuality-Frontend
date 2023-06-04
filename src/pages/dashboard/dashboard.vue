@@ -19,8 +19,14 @@
           </template>
 
           <div class="px-1 py-1">
-            <n-skeleton v-if="loading" :width="100" size="medium" />
-            <div v-else class="text-3xl">{{ data.series }}</div>
+            <n-skeleton
+              v-if="aggregateInfoLoading"
+              style="width: 100%"
+              size="medium"
+            />
+            <div v-else class="text-3xl">
+              {{ aggregateInfo.time_series_num }}
+            </div>
           </div>
         </n-card>
       </n-grid-item>
@@ -38,8 +44,12 @@
           </template>
 
           <div class="px-1 py-1">
-            <n-skeleton v-if="loading" :width="100" size="medium" />
-            <div v-else class="text-3xl">{{ data.device }}</div>
+            <n-skeleton
+              v-if="aggregateInfoLoading"
+              style="width: 100%"
+              size="medium"
+            />
+            <div v-else class="text-3xl">{{ aggregateInfo.device_num }}</div>
           </div>
         </n-card>
       </n-grid-item>
@@ -57,8 +67,12 @@
           </template>
 
           <div class="px-1 py-1">
-            <n-skeleton v-if="loading" :width="100" size="medium" />
-            <div v-else class="text-3xl">{{ data.database }}</div>
+            <n-skeleton
+              v-if="aggregateInfoLoading"
+              style="width: 100%"
+              size="medium"
+            />
+            <div v-else class="text-3xl">{{ aggregateInfo.database_num }}</div>
           </div>
         </n-card>
       </n-grid-item>
@@ -76,164 +90,136 @@
           </template>
 
           <div class="px-1 py-1">
-            <n-skeleton v-if="loading" :width="100" size="medium" />
-            <div v-else class="text-3xl">{{ data.history }}</div>
+            <n-skeleton
+              v-if="aggregateInfoLoading"
+              style="width: 100%"
+              size="medium"
+            />
+            <div v-else class="text-3xl">{{ aggregateInfo.analysis_num }}</div>
           </div>
         </n-card>
       </n-grid-item>
     </n-grid>
 
     <n-card class="mt-4">
-      <TimeSeriesCount />
+      <div v-if="tsDataLoading">
+        <n-skeleton v-for="n in tsDataPagination.pageSize" text size="small" />
+      </div>
+      <div class="chart" v-else>
+        <TimeSeriesCount v-bind="tsData" />
+        <n-pagination
+          style="align-self: flex-end"
+          :page="tsDataPagination.page"
+          :page-count="tsDataPagination.pageCount"
+          @update:page="handleTSDataPageChange"
+        />
+      </div>
     </n-card>
 
-    <n-card class="mt-4" title="历史分析">
-      <n-data-table
-        striped
-        :data="historyData"
-        :bordered="false"
-        :columns="columns"
-      />
-    </n-card>
+    <HistoryTask />
   </div>
 </template>
 
 <script setup lang="ts">
-import { NButton } from 'naive-ui'
-import { h, onMounted, ref } from 'vue'
+import { h, onMounted, reactive, ref } from 'vue'
 import TimeSeriesCount from './components/TimeSeriesCount.vue'
+import HistoryTask from '../history/components/HistoryTask.vue'
+import { getIoTDBAggregateInfo, getTSDataSize } from '@/api/dashboard'
 
-type Row = {
-  no: number
-  ts: string
-  tf: string
-  vf: string
-  completeness: number
-  consistency: number
-  timeliness: number
-  validity: number
+/////////////////////////////////////////////
+// page lifecycle function code segment start
+onMounted(async () => {
+  getAggregateData()
+  getTSData()
+})
+// page lifecycle function code segment start
+/////////////////////////////////////////////
+
+/////////////////////////////////////////////
+// aggregate info related code segment start
+type AggregateInfo = {
+  time_series_num: number
+  device_num: number
+  database_num: number
+  analysis_num: number
 }
 
-const data = ref<any>({
-  series: 46572,
-  device: 6554,
-  database: 724,
-  history: 28,
+let aggregateInfoLoading = ref(true)
+const aggregateInfo = ref<AggregateInfo>({
+  time_series_num: 0,
+  device_num: 0,
+  database_num: 0,
+  analysis_num: 0,
 })
-const loading = ref(true)
 
-const columns = [
-  {
-    title: 'No',
-    key: 'no',
-    align: 'center',
-  },
-  {
-    title: '时间序列',
-    key: 'ts',
-    align: 'center',
-    resizable: true,
-    minWidth: 100,
-    maxWidth: 300,
-  },
-  {
-    title: '时间条件',
-    key: 'tf',
-    align: 'center',
-    resizable: true,
-    minWidth: 100,
-    maxWidth: 300,
-  },
-  {
-    title: '值条件',
-    key: 'vf',
-    align: 'center',
-    resizable: true,
-    minWidth: 100,
-    maxWidth: 300,
-  },
-  {
-    title: '完整性',
-    key: 'completeness',
-    align: 'center',
-  },
-  {
-    title: '一致性',
-    key: 'consistency',
-    align: 'center',
-  },
-  {
-    title: '时效性',
-    key: 'timeliness',
-    align: 'center',
-  },
-  {
-    title: '有效性',
-    key: 'validity',
-  },
-  {
-    title: '操作',
-    key: 'action',
-    render() {
-      return h(
-        NButton,
-        {
-          strong: true,
-          tertiary: true,
-          size: 'small',
-        },
-        { default: () => '删除' }
-      )
-    },
-  },
-]
+const getAggregateData = () => {
+  getIoTDBAggregateInfo()
+    .then((res: any) => {
+      aggregateInfo.value = res.data
+      aggregateInfoLoading.value = false
+    })
+    .catch((err) => {
+      console.log(err)
+      aggregateInfoLoading.value = false
+    })
+}
+// aggregate info related code segment end
+/////////////////////////////////////////////
 
-const historyData: Row[] = [
-  {
-    no: 1,
-    ts: 'root.sg1.d1.s1',
-    tf: '2023-04-21 00:00\n2023-04-22 00:00',
-    vf: 's1 > 1000',
-    completeness: 0.91,
-    consistency: 0.83,
-    timeliness: 0.64,
-    validity: 0.72,
-  },
-  {
-    no: 2,
-    ts: 'root.sg1.d1.s1',
-    tf: '/',
-    vf: '/',
-    completeness: 0.91,
-    consistency: 0.83,
-    timeliness: 0.64,
-    validity: 0.72,
-  },
-  {
-    no: 3,
-    ts: 'root.sg1.d1.s1',
-    tf: '2023-04-21 00:00\n2023-04-22 00:00',
-    vf: '/',
-    completeness: 0.91,
-    consistency: 0.83,
-    timeliness: 0.64,
-    validity: 0.72,
-  },
-  {
-    no: 4,
-    ts: 'root.sg1.d1.s1',
-    tf: '/',
-    vf: 's1 > 1000',
-    completeness: 0.91,
-    consistency: 0.83,
-    timeliness: 0.64,
-    validity: 0.72,
-  },
-]
+/////////////////////////////////////////////
+// timeseries info related code segment start
+interface TsInfo {
+  names: [string] | []
+  dataSizes: [number] | []
+}
 
-onMounted(async () => {
-  loading.value = false
+let tsData = ref<TsInfo>({
+  names: [],
+  dataSizes: [],
 })
+const tsDataLoading = ref(true)
+const tsDataPagination = reactive({
+  page: 1,
+  pageCount: 0,
+  pageSize: 5,
+  itemCount: 0,
+})
+
+const getTSData = (page_index: number = tsDataPagination.page) => {
+  tsDataLoading.value = true
+  getTSDataSize({
+    page_index,
+    page_size: tsDataPagination.pageSize,
+  })
+    .then((res: any) => {
+      tsDataLoading.value = false
+      tsDataPagination.page = res.data.page_index
+      tsDataPagination.itemCount = res.data.total
+      tsDataPagination.pageCount = res.data.page_count
+      tsData.value = {
+        names: res.data.info.map((x: any) => x.name),
+        dataSizes: res.data.info.map((x: any) => x.data_size),
+      }
+    })
+    .catch((err) => {
+      console.log(err)
+    })
+}
+
+function handleTSDataPageChange(currentPage: number) {
+  if (tsDataLoading.value) {
+    // still loading ts data, ignore page change event
+    return
+  }
+  getTSData(currentPage)
+}
+// timeseries info related code segment end
+/////////////////////////////////////////////
 </script>
 
-<style scoped></style>
+<style scoped>
+.chart {
+  display: flex;
+  flex-direction: column;
+}
+</style>
