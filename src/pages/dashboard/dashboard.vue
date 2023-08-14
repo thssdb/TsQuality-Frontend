@@ -10,12 +10,14 @@
         <n-card
           hoverable
           size="small"
-          title="时间序列总数"
+          :title="$t('dashboard.total_count.time_series.title')"
           :bordered="false"
           :segmented="{ content: true, footer: true }"
         >
           <template #header-extra>
-            <n-tag type="success">序列</n-tag>
+            <n-tag type="success">
+              {{ $t('dashboard.total_count.time_series.tag') }}
+            </n-tag>
           </template>
 
           <div class="px-1 py-1">
@@ -35,12 +37,14 @@
         <n-card
           hoverable
           size="small"
-          title="设备总数"
+          :title="$t('dashboard.total_count.device.title')"
           :bordered="false"
           :segmented="{ content: true, footer: true }"
         >
           <template #header-extra>
-            <n-tag type="info">设备</n-tag>
+            <n-tag type="info">
+              {{ $t('dashboard.total_count.device.tag') }}
+            </n-tag>
           </template>
 
           <div class="px-1 py-1">
@@ -58,12 +62,14 @@
         <n-card
           hoverable
           size="small"
-          title="数据库总数"
+          :title="$t('dashboard.total_count.database.title')"
           :bordered="false"
           :segmented="{ content: true, footer: true }"
         >
           <template #header-extra>
-            <n-tag type="warning">数据</n-tag>
+            <n-tag type="warning">
+              {{ $t('dashboard.total_count.database.tag') }}
+            </n-tag>
           </template>
 
           <div class="px-1 py-1">
@@ -81,12 +87,14 @@
         <n-card
           hoverable
           size="small"
-          title="历史分析总数"
+          :title="$t('dashboard.total_count.analysis.title')"
           :bordered="false"
           :segmented="{ content: true, footer: true }"
         >
           <template #header-extra>
-            <n-tag type="error">历史</n-tag>
+            <n-tag type="error">
+              {{ $t('dashboard.total_count.analysis.tag') }}
+            </n-tag>
           </template>
 
           <div class="px-1 py-1">
@@ -121,10 +129,12 @@
 </template>
 
 <script setup lang="ts">
-import { h, onMounted, reactive, ref } from 'vue'
+import { useI18n } from 'vue-i18n'
+import { onMounted, reactive, ref } from 'vue'
 import TimeSeriesCount from './components/TimeSeriesCount.vue'
 import HistoryTask from '../history/components/HistoryTask.vue'
 import { getIoTDBAggregateInfo, getTSDataSize } from '@/api/dashboard'
+import { use } from 'echarts'
 
 /////////////////////////////////////////////
 // page lifecycle function code segment start
@@ -215,6 +225,8 @@ function handleTSDataPageChange(currentPage: number) {
 }
 // timeseries info related code segment end
 /////////////////////////////////////////////
+
+const i18n = useI18n()
 </script>
 
 <style scoped>

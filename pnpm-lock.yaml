@@ -22,14 +22,14 @@ dependencies:
   vue-echarts:
     specifier: ^6.5.5
     version: 6.5.5(echarts@5.4.2)(vue@3.2.47)
+  vue-i18n:
+    specifier: 9.3.0-beta.25
+    version: 9.3.0-beta.25(vue@3.2.47)
   vue-router:
     specifier: ^4.0.13
     version: 4.0.13(vue@3.2.47)
 
 devDependencies:
-  '@types/axios':
-    specifier: ^0.14.0
-    version: 0.14.0
   '@types/mockjs':
     specifier: ^1.0.7
     version: 1.0.7
@@ -512,6 +512,44 @@ packages:
     resolution: {integrity: sha512-ZnQMnLV4e7hDlUvw8H+U8ASL02SS2Gn6+9Ac3wGGLIe7+je2AeAOxPY+izIPJDfFDb7eDjev0Us8MO1iFRN8hA==}
     dev: true
 
+  /@intlify/core-base@9.3.0-beta.25:
+    resolution: {integrity: sha512-Zohb874rZvvPe5o9QIQj3unApmsyI5/Y7KWUot5bqFAQrxowJ9HKFLnOpXj4EELEoZS0/ss4WUezpALJKbnvJA==}
+    engines: {node: '>= 16'}
+    dependencies:
+      '@intlify/devtools-if': 9.3.0-beta.25
+      '@intlify/message-compiler': 9.3.0-beta.25
+      '@intlify/shared': 9.3.0-beta.25
+      '@intlify/vue-devtools': 9.3.0-beta.25
+    dev: false
+
+  /@intlify/devtools-if@9.3.0-beta.25:
+    resolution: {integrity: sha512-F2TtZGb5bbh746SIJq0EwZxmsj4NV8kLImI+ubThfk0G/8M2qb/3YwmVN2pn8lx8+683ZMhYxbd39HEtczdVlQ==}
+    engines: {node: '>= 16'}
+    dependencies:
+      '@intlify/shared': 9.3.0-beta.25
+    dev: false
+
+  /@intlify/message-compiler@9.3.0-beta.25:
+    resolution: {integrity: sha512-uT7ybqKoDEw1XITQYnTYjWgZnpCDmHv9e3D4MmJDqHl2qCm6anzdUXWKHUhqR87Ha9Z8Rl44v40iSI/4NUbppQ==}
+    engines: {node: '>= 16'}
+    dependencies:
+      '@intlify/shared': 9.3.0-beta.25
+      source-map-js: 1.0.2
+    dev: false
+
+  /@intlify/shared@9.3.0-beta.25:
+    resolution: {integrity: sha512-Zg+ECV9RPdp227tCJOgvPb+S3i651nf4kKHsMojSyWCppVK/4NFuDrBG2lIQSQL6Iq5LKVr5MkezHCW2NBTQRg==}
+    engines: {node: '>= 16'}
+    dev: false
+
+  /@intlify/vue-devtools@9.3.0-beta.25:
+    resolution: {integrity: sha512-p2ob9v9tqBYLq9DSiJ4nnfQSuQC0O8H9wuvzNRrej2qvLqPF3p/Xr2fRTM5NlW1uKQiFzXlZtIt+kBwSGUXWdw==}
+    engines: {node: '>= 16'}
+    dependencies:
+      '@intlify/core-base': 9.3.0-beta.25
+      '@intlify/shared': 9.3.0-beta.25
+    dev: false
+
   /@jridgewell/gen-mapping@0.3.3:
     resolution: {integrity: sha512-HLhSWOLRi875zjjMG/r+Nv0oCW8umGb0BgEhyX3dDX3egwZtB8PqLnjz3yedt8R5StBrzcg4aBpnh8UA9D1BoQ==}
     engines: {node: '>=6.0.0'}
@@ -600,15 +638,6 @@ packages:
 
   /@tsconfig/node16@1.0.4:
     resolution: {integrity: sha512-vxhUy4J8lyeyinH7Azl1pdd43GJhZH/tP2weN8TntQblOY+A0XbT8DJk1/oCPuOOyg/Ja757rG0CgHcWC8OfMA==}
-
-  /@types/axios@0.14.0:
-    resolution: {integrity: sha512-KqQnQbdYE54D7oa/UmYVMZKq7CO4l8DEENzOKc4aBRwxCXSlJXGz83flFx5L7AWrOQnmuN3kVsRdt+GZPPjiVQ==}
-    deprecated: This is a stub types definition for axios (https://github.com/mzabriskie/axios). axios provides its own type definitions, so you don't need @types/axios installed!
-    dependencies:
-      axios: 1.4.0
-    transitivePeerDependencies:
-      - debug
-    dev: true
 
   /@types/eslint-scope@3.7.4:
     resolution: {integrity: sha512-9K4zoImiZc3HlIp6AVUDE4CWYx22a+lhSZMYNpbjW04+YF0KWj4pJXnEMjdnFTiQibFFmElcsasJXDbdI/EPhA==}
@@ -1194,6 +1223,7 @@ packages:
 
   /asynckit@0.4.0:
     resolution: {integrity: sha512-Oei9OH4tRh0YqU3GxhX79dM/mwVgvbZJaSNaRk+bshkj0S5cfHcgYakreBjrHwatXKbz+IoIdYLxrKim2MjW0Q==}
+    dev: false
 
   /at-least-node@1.0.0:
     resolution: {integrity: sha512-+q/t7Ekv1EDY2l6Gda6LLiX14rU9TV20Wa3ofeQmwPFZbOMo9DXrLbOjFaaclkXKWidIaopwAObQDqwWtGUjqg==}
@@ -1246,6 +1276,7 @@ packages:
       proxy-from-env: 1.1.0
     transitivePeerDependencies:
       - debug
+    dev: false
 
   /balanced-match@1.0.2:
     resolution: {integrity: sha512-3oSeUO0TMV67hN1AmbXsK4yaqU7tjiHlbxRDZOpH0KW9+CeX4bRAaX0Anxt0tx2MrpRpWwQaPwIlISEJhYU5Pw==}
@@ -1444,6 +1475,7 @@ packages:
     engines: {node: '>= 0.8'}
     dependencies:
       delayed-stream: 1.0.0
+    dev: false
 
   /commander@2.20.3:
     resolution: {integrity: sha512-GpVkmM8vF2vQUkj2LvZmD35JxeJOLCwJ9cUkugyk2nuhbv3+mJvpLYYt+0+USMxE+oj+ey/lJEnhZw75x/OMcQ==}
@@ -1639,6 +1671,7 @@ packages:
   /delayed-stream@1.0.0:
     resolution: {integrity: sha512-ZySD7Nf91aLB0RxL4KGrKHBXl7Eds1DAmEdcoVawXnLD7SDhpNgtuII2aAkg7a7QS41jxPSZ17p4VdGnMHk3MQ==}
     engines: {node: '>=0.4.0'}
+    dev: false
 
   /detect-file@1.0.0:
     resolution: {integrity: sha512-DtCOLG98P007x7wiiOmfI0fi3eIKyWiLTGJ2MDnVi/E04lWGbf+JzrRHMm0rgIIZJGtHpKpbVgLWHrv8xXpc3Q==}
@@ -2315,6 +2348,7 @@ packages:
     peerDependenciesMeta:
       debug:
         optional: true
+    dev: false
 
   /for-each@0.3.3:
     resolution: {integrity: sha512-jqYfLp7mo9vIyQf8ykW2v7A+2N4QjeCeI5+Dz9XraiO1ign81wjiH7Fb9vSOWvQfNtmSa4H2RoQTrrXivdUZmw==}
@@ -2329,6 +2363,7 @@ packages:
       asynckit: 0.4.0
       combined-stream: 1.0.8
       mime-types: 2.1.35
+    dev: false
 
   /fraction.js@4.2.0:
     resolution: {integrity: sha512-MhLuK+2gUcnZe8ZHlaaINnQLl0xRIGRfcGk2yl8xoQAfHrSsL3rYu6FCmBdkdbhc9EPlwyGHewaRsvwRMJtAlA==}
@@ -3460,6 +3495,7 @@ packages:
 
   /proxy-from-env@1.1.0:
     resolution: {integrity: sha512-D+zkORCbA9f1tdWRK0RaCR3GPv50cMxcrz4X8k5LTSUD1Dkw47mKJEZQNunItRTkWwgtaUSo1RVFRIG9ZXiFYg==}
+    dev: false
 
   /prr@1.0.1:
     resolution: {integrity: sha512-yPw4Sng1gWghHQWj0B3ZggWUm4qVbPwPFcRG8KyxiU7J2OHFSoEHKS+EZ3fv5l1t9CyCiop6l/ZYeWbrgoQejw==}
@@ -4207,6 +4243,19 @@ packages:
     transitivePeerDependencies:
       - supports-color
     dev: true
+
+  /vue-i18n@9.3.0-beta.25(vue@3.2.47):
+    resolution: {integrity: sha512-WfR5W3ql2fGFGyJfD6WsoyewqINra5NKxW50RIbLpiqw099PRNBZ4pPgMuO0J194OQ+VayOEMEGSnAimcolbQQ==}
+    engines: {node: '>= 16'}
+    peerDependencies:
+      vue: ^3.0.0
+    dependencies:
+      '@intlify/core-base': 9.3.0-beta.25
+      '@intlify/shared': 9.3.0-beta.25
+      '@intlify/vue-devtools': 9.3.0-beta.25
+      '@vue/devtools-api': 6.5.0
+      vue: 3.2.47
+    dev: false
 
   /vue-router@4.0.13(vue@3.2.47):
     resolution: {integrity: sha512-LmXrC+BkDRLak+d5xTMgUYraT3Nj0H/vCbP+7usGvIl9Viqd1UP6AsP0i69pSbn9O0dXK/xCdp4yPw21HqV9Jw==}

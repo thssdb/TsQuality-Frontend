@@ -1,5 +1,5 @@
 <template>
-  <n-card class="mt-4" title="历史分析">
+  <n-card class="mt-4" :title="$t('history.table.title')">
     <n-data-table
       remote
       striped
@@ -18,6 +18,7 @@
 import { getTaskList } from '@/api/dashboard'
 import { NButton } from 'naive-ui'
 import { h, onMounted, reactive, ref } from 'vue'
+import { useI18n } from 'vue-i18n'
 
 onMounted(async () => {
   getData()
@@ -43,6 +44,7 @@ const pagination = reactive({
   itemCount: 0,
 })
 
+const i18n = useI18n()
 const columns = [
   {
     title: 'No',
@@ -50,7 +52,7 @@ const columns = [
     align: 'center',
   },
   {
-    title: '时间序列',
+    title: i18n.t('history.table.columns.time_series'),
     key: 'time_series',
     align: 'center',
     resizable: true,
@@ -58,7 +60,7 @@ const columns = [
     maxWidth: 300,
   },
   {
-    title: '时间条件',
+    title: i18n.t('history.table.columns.time_filter'),
     key: 'time_filter',
     align: 'center',
     resizable: true,
@@ -66,7 +68,7 @@ const columns = [
     maxWidth: 300,
   },
   {
-    title: '值条件',
+    title: i18n.t('history.table.columns.value_filter'),
     key: 'value_filter',
     align: 'center',
     resizable: true,
@@ -74,26 +76,26 @@ const columns = [
     maxWidth: 300,
   },
   {
-    title: '完整性',
+    title: i18n.t('history.table.columns.completeness'),
     key: 'completeness',
     align: 'center',
   },
   {
-    title: '一致性',
+    title: i18n.t('history.table.columns.consistency'),
     key: 'consistency',
     align: 'center',
   },
   {
-    title: '时效性',
+    title: i18n.t('history.table.columns.timeliness'),
     key: 'timeliness',
     align: 'center',
   },
   {
-    title: '有效性',
+    title: i18n.t('history.table.columns.validity'),
     key: 'validity',
   },
   {
-    title: '操作',
+    title: i18n.t('history.table.columns.action'),
     key: 'action',
     render() {
       return h(
@@ -103,7 +105,7 @@ const columns = [
           tertiary: true,
           size: 'small',
         },
-        { default: () => '删除' }
+        { default: () => i18n.t('history.table.columns.action.delete') }
       )
     },
   },

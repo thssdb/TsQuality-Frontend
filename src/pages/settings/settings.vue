@@ -1,12 +1,12 @@
 <template>
   <div>
     <div>
-      <n-card title="系统设置">
-        可设置Apache IoTDB默认连接地址、默认用户名/密码等信息。
+      <n-card :title="$t('settings.system.title')">
+        {{ $t('settings.system.description') }}
       </n-card>
     </div>
 
-    <n-card class="mt-4" title="配置项">
+    <n-card class="mt-4" :title="$t('settings.configuration.title')">
       <n-grid cols="1 s:1 m:3 l:3 xl:3 2xl:3" responsive="screen">
         <n-grid-item offset="0 s:0 m:1 l:1 xl:1 2xl:1">
           <n-form
@@ -20,29 +20,59 @@
             :model="formValue"
             :label-width="120"
           >
-            <n-form-item label="IoTDB地址" path="host">
-              <n-input v-model:value="formValue.host" placeholder="IoTDB地址" />
-            </n-form-item>
-            <n-form-item label="IoTDB端口" path="port">
-              <n-input v-model:value="formValue.port" placeholder="IoTDB端口" />
-            </n-form-item>
-            <n-form-item label="IoTDB用户名" path="username">
+            <n-form-item
+              :label="$t('settings.configuration.items.host.title')"
+              path="host"
+            >
               <n-input
-                v-model:value="formValue.username"
-                placeholder="IoTDB用户名"
+                v-model:value="formValue.host"
+                :placeholder="
+                  $t('settings.configuration.items.host.placeholder')
+                "
               />
             </n-form-item>
-            <n-form-item label="IoTDB密码" path="password">
+            <n-form-item
+              :label="$t('settings.configuration.items.port.title')"
+              path="port"
+            >
+              <n-input
+                v-model:value="formValue.port"
+                :placeholder="
+                  $t('settings.configuration.items.port.placeholder')
+                "
+              />
+            </n-form-item>
+            <n-form-item
+              :label="$t('settings.configuration.items.username.title')"
+              path="username"
+            >
+              <n-input
+                v-model:value="formValue.username"
+                :placeholder="
+                  $t('settings.configuration.items.username.placeholder')
+                "
+              />
+            </n-form-item>
+            <n-form-item
+              :label="$t('settings.configuration.items.password.title')"
+              path="password"
+            >
               <n-input
                 v-model:value="formValue.password"
-                placeholder="IoTDB密码"
+                :placeholder="
+                  $t('settings.configuration.items.password.placeholder')
+                "
               />
             </n-form-item>
 
             <div style="margin-left: 120px">
               <n-space>
-                <n-button type="primary" @click="formSubmit">提交</n-button>
-                <n-button @click="resetForm">重置</n-button>
+                <n-button type="primary" @click="formSubmit">{{
+                  $t('settings.configuration.buttons.submit')
+                }}</n-button>
+                <n-button @click="resetForm">{{
+                  $t('settings.configuration.buttons.reset')
+                }}</n-button>
               </n-space>
             </div>
           </n-form>

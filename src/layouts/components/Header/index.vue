@@ -20,35 +20,51 @@
     </div>
     <!-- right menu -->
     <div class="layout-header-right">
-      <div>
-        <NDropdown
+      <div class="layout-header-right-language">
+        <n-dropdown
+          trigger="hover"
+          @select="languageSelect"
+          :options="languageSelectOptions"
+        >
+          <div class="avatar">
+            <n-icon size="24">
+              <LanguageOutline />
+            </n-icon>
+          </div>
+        </n-dropdown>
+      </div>
+      <div class="layout-header-right-avatar">
+        <n-dropdown
           trigger="hover"
           @select="avatarSelect"
           :options="avatarOptions"
         >
           <div class="avatar">
-            <NAvatar round>
+            <n-avatar round>
               {{ username }}
               <template #icon>
                 <UserOutlined />
               </template>
-            </NAvatar>
+            </n-avatar>
           </div>
-        </NDropdown>
+        </n-dropdown>
       </div>
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
+import { PageEnum } from '@/enums/pageEnum'
 import {
   MenuFoldOutlined,
   MenuUnfoldOutlined,
   ReloadOutlined,
   UserOutlined,
 } from '@vicons/antd'
-import { NAvatar, NDropdown, useDialog } from 'naive-ui'
+import { LanguageOutline } from '@vicons/ionicons5'
+import { useDialog } from 'naive-ui'
 import { ref, unref } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { useRoute, useRouter } from 'vue-router'
 
 defineProps({
@@ -57,6 +73,8 @@ defineProps({
     default: false,
   },
 })
+
+const i18n = useI18n()
 
 const route = useRoute()
 const router = useRouter()
@@ -67,29 +85,51 @@ const username = ref<string>('admin')
 const avatarOptions = [
   {
     key: 1,
-    label: '个人设置',
+    label: i18n.t('global.avatar.settings'),
   },
   {
     key: 2,
-    label: '退出登录',
+    label: i18n.t('global.avatar.logout'),
+  },
+]
+
+const languageSelectOptions = [
+  {
+    key: 1,
+    label: 'English',
+  },
+  {
+    key: 2,
+    label: '简体中文',
   },
 ]
 
 const logout = () => {
   dialog.info({
-    title: '提示',
-    content: '退出登录成功',
-    positiveText: '确定',
+    title: i18n.t('global.logout.title'),
+    content: i18n.t('global.logout.content'),
+    positiveText: i18n.t('global.logout.confirm'),
   })
 }
 
 const avatarSelect = (key: Number) => {
   switch (key) {
     case 1:
-      router.push({ name: 'Setting' })
+      router.push({ name: PageEnum.SETTINGS })
       break
     case 2:
       logout()
+      break
+  }
+}
+
+const languageSelect = (key: Number) => {
+  switch (key) {
+    case 1:
+      i18n.locale.value = 'en'
+      break
+    case 2:
+      i18n.locale.value = 'zh'
       break
   }
 }
@@ -127,6 +167,11 @@ const reloadPage = () => {
     display: flex;
     align-items: center;
     margin-right: 20px;
+    justify-content: space-between;
+
+    &-language {
+      margin-right: 20px;
+    }
 
     .avatar {
       display: flex;

@@ -59,13 +59,13 @@ export const AnalyzeRoute: RouteRecordRaw = {
   children: [
     {
       path: 'overview',
-      name: RouteEnum.ANALYZE_DETAIL,
+      name: RouteEnum.ANALYZE_OVERVIEW,
       // component: () => import('../pages/analysis/overview/overview.vue'),
       component: () => import('../pages/analysis/overview/overview.vue'),
     },
     {
       path: 'detail',
-      name: RouteEnum.ANALYZE_OVERVIEW,
+      name: RouteEnum.ANALYZE_DETAIL,
       component: () => import('../pages/analysis/detail/detail.vue'),
     },
   ],

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <n-card title="数据分布">
+    <n-card :title="$t('analysis.detail.bar_chart.title')">
       <template #header-extra>
         <n-icon size="36">
           <download-outlined />
@@ -9,7 +9,7 @@
       <v-chart autoresize :option="barChartOption" :style="{ width, height }" />
     </n-card>
 
-    <n-card title="异常修复">
+    <n-card :title="$t('analysis.detail.line_chart.title')">
       <template #header-extra>
         <n-icon size="36">
           <download-outlined />
@@ -37,6 +37,7 @@ import { use } from 'echarts/core'
 import { SVGRenderer } from 'echarts/renderers'
 import { ref } from 'vue'
 import VChart from 'vue-echarts'
+import { useI18n } from 'vue-i18n'
 
 use([
   BarChart,
@@ -48,13 +49,14 @@ use([
   LegendComponent,
 ])
 
+const i18n = useI18n()
+
 const height = '300px'
 const width = '100%'
 
 const barChartOption = ref({
   title: {
     left: 'center',
-    text: '数据分布',
   },
   xAxis: {
     type: 'category',
@@ -70,7 +72,7 @@ const barChartOption = ref({
     ],
   },
   yAxis: {
-    name: '数据点数',
+    name: i18n.t('analysis.detail.bar_chart.yaxis.name'),
   },
   series: [
     {
@@ -86,7 +88,6 @@ const barChartOption = ref({
 const lineChartOption = ref<any>({
   title: {
     left: 'center',
-    text: '异常修复',
   },
   xAxis: {
     type: 'category',
@@ -102,7 +103,7 @@ const lineChartOption = ref<any>({
     ],
   },
   yAxis: {
-    name: '数据值',
+    name: i18n.t('analysis.detail.line_chart.yaxis.name'),
   },
   series: [
     {
@@ -114,5 +115,8 @@ const lineChartOption = ref<any>({
       data: [40, 10, 102, 1812, 1401, 1439, 1496, 1701],
     },
   ],
+  tooltip: {
+    show: true,
+  },
 })
 </script>

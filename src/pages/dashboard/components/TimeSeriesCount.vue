@@ -13,6 +13,7 @@ import {
   TooltipComponent,
 } from 'echarts/components'
 import VChart from 'vue-echarts'
+import { useI18n } from 'vue-i18n'
 
 const props = defineProps({
   names: {
@@ -29,10 +30,11 @@ use([SVGRenderer, BarChart, TitleComponent, GridComponent, TooltipComponent])
 
 const width = '100%'
 const height = '300px'
+const i18n = useI18n()
 const option = ref<any>({
   title: {
     left: 'center',
-    text: '各时间序列数据量',
+    text: i18n.t('dashboard.bar_chart.title'),
   },
   xAxis: {},
   yAxis: {
@@ -41,7 +43,7 @@ const option = ref<any>({
   },
   series: [
     {
-      name: '数据量',
+      name: i18n.t('dashboard.bar_chart.tooltip'),
       type: 'bar',
       data: props.dataSizes,
     },

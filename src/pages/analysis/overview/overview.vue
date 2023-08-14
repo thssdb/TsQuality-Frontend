@@ -6,7 +6,10 @@
           <n-grid-item>
             <n-card>
               <n-tabs type="line" animated>
-                <n-tab-pane name="tab-day" tab="按日聚合">
+                <n-tab-pane
+                  name="tab-day"
+                  :tab="$t('analysis.overview.aggregation.data_size.tabs.day')"
+                >
                   <v-chart
                     autoresize
                     :option="countChartOption"
@@ -18,7 +21,12 @@
                     :style="{ width: chartWidth, height: chartHeight }"
                   />
                 </n-tab-pane>
-                <n-tab-pane name="tab-month" tab="按月聚合">
+                <n-tab-pane
+                  name="tab-month"
+                  :tab="
+                    $t('analysis.overview.aggregation.data_size.tabs.month')
+                  "
+                >
                   <v-chart
                     autoresize
                     :option="countChartOption"
@@ -30,7 +38,10 @@
                     :style="{ width: chartWidth, height: chartHeight }"
                   />
                 </n-tab-pane>
-                <n-tab-pane name="tab-year" tab="按年聚合">
+                <n-tab-pane
+                  name="tab-year"
+                  :tab="$t('analysis.overview.aggregation.data_size.tabs.year')"
+                >
                   <v-chart
                     autoresize
                     :option="countChartOption"
@@ -49,7 +60,10 @@
           <n-grid-item>
             <n-card>
               <n-tabs type="line" animated>
-                <n-tab-pane name="tab-result" tab="结果">
+                <n-tab-pane
+                  name="tab-result"
+                  :tab="$t('analysis.overview.pie_chart.title')"
+                >
                   <n-grid x-gap="12" y-gap="8" responsive="screen" cols="1">
                     <n-grid-item>
                       <!-- <v-chart autoresize :option="proportionChartOption" :style="{ width: chartWidth, height: chartHeight }" />
@@ -80,7 +94,7 @@
     </div>
 
     <div class="layout-bottom">
-      <n-card class="mt-4" title="分析结果">
+      <n-card class="mt-4" :title="$t('analysis.overview.table.title')">
         <n-data-table
           striped
           :bordered="false"
@@ -108,6 +122,7 @@ import { SVGRenderer } from 'echarts/renderers'
 import { NButton } from 'naive-ui'
 import { h, ref } from 'vue'
 import VChart from 'vue-echarts'
+import { useI18n } from 'vue-i18n'
 
 use([
   BarChart,
@@ -121,24 +136,24 @@ use([
   VisualMapComponent,
 ])
 
+const i18n = useI18n()
+
 const chartHeight = '300px'
 const chartWidth = '100%'
 
 const countChartOption = ref<any>({
   title: {
     left: 'center',
-    text: '按日聚合',
+    text: i18n.t('analysis.overview.aggregation.data_size.bar_chart.title'),
   },
   xAxis: {
     data: ['11.15', '11.16', '11.17', '11.18', '11.19', '11.20', '11.21'],
   },
-  yAxis: {
-    name: '数据量',
-  },
+  yAxis: {},
   series: [
     {
       type: 'bar',
-      name: '数据量',
+      name: i18n.t('analysis.overview.aggregation.data_size.bar_chart.title'),
       data: [30, 210, 1502, 1312, 2401, 1439, 1496],
     },
   ],
@@ -150,7 +165,7 @@ const countChartOption = ref<any>({
 const metricChartOption = ref<any>({
   title: {
     left: 'center',
-    text: '按日聚合数据质量',
+    text: i18n.t('analysis.overview.aggregation.data_quality.bar_chart.title'),
   },
   xAxis: {
     data: ['11.15', '11.16', '11.17', '11.18', '11.19', '11.20', '11.21'],
@@ -163,22 +178,22 @@ const metricChartOption = ref<any>({
   series: [
     {
       type: 'bar',
-      name: '完整性',
+      name: i18n.t('global.data_quality.metrics.completeness'),
       data: [0.02, 0.13, 0.44, 0.38, 0.69, 0.42, 0.47],
     },
     {
       type: 'bar',
-      name: '一致性',
+      name: i18n.t('global.data_quality.metrics.consistency'),
       data: [0.02, 0.13, 0.44, 0.38, 0.69, 0.42, 0.47],
     },
     {
       type: 'bar',
-      name: '时效性',
+      name: i18n.t('global.data_quality.metrics.timeliness'),
       data: [0.02, 0.13, 0.44, 0.38, 0.69, 0.42, 0.47],
     },
     {
       type: 'bar',
-      name: '有效性',
+      name: i18n.t('global.data_quality.metrics.validity'),
       data: [0.02, 0.13, 0.44, 0.38, 0.69, 0.42, 0.47],
     },
   ],
@@ -275,31 +290,31 @@ const columns = [
     align: 'center',
   },
   {
-    title: '时间',
+    title: i18n.t('analysis.overview.table.columns.time'),
     key: 'time',
     align: 'center',
   },
   {
-    title: '完整性',
+    title: i18n.t('global.data_quality.metrics.completeness'),
     key: 'completeness',
     align: 'center',
   },
   {
-    title: '一致性',
+    title: i18n.t('global.data_quality.metrics.consistency'),
     key: 'consistency',
     align: 'center',
   },
   {
-    title: '时效性',
+    title: i18n.t('global.data_quality.metrics.timeliness'),
     key: 'timeliness',
     align: 'center',
   },
   {
-    title: '有效性',
+    title: i18n.t('global.data_quality.metrics.validity'),
     key: 'validity',
   },
   {
-    title: '操作',
+    title: i18n.t('analysis.overview.table.columns.action'),
     key: 'action',
     render() {
       return h(
@@ -309,7 +324,7 @@ const columns = [
           tertiary: true,
           size: 'small',
         },
-        { default: () => '详情' }
+        { default: () => i18n.t('analysis.overview.table.columns.action.view') }
       )
     },
   },

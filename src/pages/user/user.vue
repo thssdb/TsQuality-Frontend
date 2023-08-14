@@ -1,6 +1,6 @@
 <template>
   <div>
-    <n-card title="用户管理" />
+    <n-card :title="$t('users.title')" />
   </div>
 </template>
 

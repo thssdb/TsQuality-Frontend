@@ -14,7 +14,7 @@
 <script lang="ts" setup>
 import { MenuOption, NIcon } from 'naive-ui'
 import { Component, h, onMounted, reactive, ref, watch } from 'vue'
-import { RouterLink, useRoute, useRouter } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import {
   DashboardOutlined,
   BranchesOutlined,
@@ -23,6 +23,7 @@ import {
   SettingOutlined,
 } from '@vicons/antd'
 import { RouteEnum } from '@/enums/routeEnum'
+import { useI18n } from 'vue-i18n'
 
 function renderIcon(icon: Component) {
   return () => h(NIcon, null, { default: () => h(icon) })
@@ -49,52 +50,49 @@ const emit = defineEmits<{
 
 const route = useRoute()
 const router = useRouter()
-const menuItems = ref<any[]>([])
 const seletedKeys = ref<string>(route.name as string)
 
 const matched = route.matched
 const matchedKeys =
   matched && matched.length ? matched.map((item) => item.name) : []
-const state = reactive({
-  openKeys: matchedKeys,
-})
-const menus: MenuOption[] = [
+const i18n = useI18n()
+const menus = ref<MenuOption[]>([
   {
     key: RouteEnum.DASHBOARD,
-    label: '仪表盘',
+    label: i18n.t('menu.dashboard'),
     icon: renderIcon(DashboardOutlined),
   },
   {
     key: RouteEnum.HISTORY,
-    label: '历史分析',
+    label: i18n.t('menu.history'),
     icon: renderIcon(BranchesOutlined),
   },
   {
     key: RouteEnum.ANALYZE,
-    label: '时序分析',
+    label: i18n.t('menu.analysis'),
     icon: renderIcon(PieChartOutlined),
     children: [
       {
         key: RouteEnum.ANALYZE_OVERVIEW,
-        label: '概览分析',
+        label: i18n.t('menu.analysis.overview'),
       },
       {
         key: RouteEnum.ANALYZE_DETAIL,
-        label: '详细分析',
+        label: i18n.t('menu.analysis.detail'),
       },
     ],
   },
   {
     key: RouteEnum.USER,
-    label: '用户管理',
+    label: i18n.t('menu.users'),
     icon: renderIcon(UserOutlined),
   },
   {
     key: RouteEnum.SETTINGS,
-    label: '系统设置',
+    label: i18n.t('menu.settings'),
     icon: renderIcon(SettingOutlined),
   },
-]
+])
 
 function clickMenuItem(key: string) {
   seletedKeys.value = key
