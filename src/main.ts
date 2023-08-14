@@ -5,6 +5,7 @@ import App from './App.vue'
 import { setupRouter } from './router'
 import './mock/mock'
 import { setupLocale } from './locales'
+import { setupStore } from './stores'
 
 function bootstrap() {
   const app = createApp(App)
@@ -13,6 +14,7 @@ function bootstrap() {
 
   setupLocale(app)
   setupRouter(app)
+  setupStore(app)
 
   app.mount('#app')
 }
