@@ -3,7 +3,7 @@ import { createApp } from 'vue'
 import naive from 'naive-ui'
 import App from './App.vue'
 import { setupRouter } from './router'
-import './mock/mock'
+// import './mock/mock'
 import { setupLocale } from './locales'
 import { setupStore } from './stores'
 

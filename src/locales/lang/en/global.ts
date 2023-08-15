@@ -10,4 +10,7 @@ export default {
   'global.logout.title': 'Info',
   'global.logout.content': 'Logout success',
   'global.logout.confirm': 'Confirm',
+
+  'global.empty_iotdb_config.description':
+    'No IoTDB config found, try create a new one.',
 }

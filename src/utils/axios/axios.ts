@@ -1,4 +1,4 @@
-import axios, { AxiosInstance } from 'axios'
+import axios, { AxiosError, AxiosInstance } from 'axios'
 import { AxiosResponse } from 'axios'
 import { AxiosRequestConfig } from 'axios'
 import { Result } from './types'
@@ -19,16 +19,8 @@ export class TsQualityAxios {
         // TODO: handle according to the data returned by the backend
         return res
       },
-      (err: any) => {
-        let message = ''
-        if (err && err.response) {
-          // TODO: handle according to the response status
-          switch (err.response.status) {
-            default:
-              message = 'error'
-          }
-        }
-        return Promise.reject(message)
+      (err: AxiosError) => {
+        return Promise.reject(err.response?.data)
       }
     )
   }

@@ -1,5 +1,22 @@
 <template>
-  <div>
+  <div class="empty" v-if="iotdbConfigStore.icid === -1">
+    <n-empty
+      :description="$t('global.empty_iotdb_config.description')"
+      class="mt-24"
+    >
+      <template #icon>
+        <n-icon>
+          <AirplaneOutline />
+        </n-icon>
+      </template>
+    </n-empty>
+    <div class="mt-10">
+      <n-button type="primary">
+        {{ $t('dashboard.empty.button.name') }}
+      </n-button>
+    </div>
+  </div>
+  <div v-else>
     <n-grid
       cols="1 s:2 m:3 l:4 xl:4 2xl:4"
       responsive="screen"
@@ -22,12 +39,12 @@
 
           <div class="px-1 py-1">
             <n-skeleton
-              v-if="aggregateInfoLoading"
+              v-if="aggregationInfoLoading"
               style="width: 100%"
               size="medium"
             />
             <div v-else class="text-3xl">
-              {{ aggregateInfo.time_series_num }}
+              {{ aggregationInfo.num_time_series }}
             </div>
           </div>
         </n-card>
@@ -49,11 +66,11 @@
 
           <div class="px-1 py-1">
             <n-skeleton
-              v-if="aggregateInfoLoading"
+              v-if="aggregationInfoLoading"
               style="width: 100%"
               size="medium"
             />
-            <div v-else class="text-3xl">{{ aggregateInfo.device_num }}</div>
+            <div v-else class="text-3xl">{{ aggregationInfo.num_devices }}</div>
           </div>
         </n-card>
       </n-grid-item>
@@ -74,11 +91,13 @@
 
           <div class="px-1 py-1">
             <n-skeleton
-              v-if="aggregateInfoLoading"
+              v-if="aggregationInfoLoading"
               style="width: 100%"
               size="medium"
             />
-            <div v-else class="text-3xl">{{ aggregateInfo.database_num }}</div>
+            <div v-else class="text-3xl">
+              {{ aggregationInfo.num_databases }}
+            </div>
           </div>
         </n-card>
       </n-grid-item>
@@ -99,11 +118,13 @@
 
           <div class="px-1 py-1">
             <n-skeleton
-              v-if="aggregateInfoLoading"
+              v-if="aggregationInfoLoading"
               style="width: 100%"
               size="medium"
             />
-            <div v-else class="text-3xl">{{ aggregateInfo.analysis_num }}</div>
+            <div v-else class="text-3xl">
+              {{ aggregationInfo.num_analysis }}
+            </div>
           </div>
         </n-card>
       </n-grid-item>
@@ -133,44 +154,67 @@ import { useI18n } from 'vue-i18n'
 import { onMounted, reactive, ref } from 'vue'
 import TimeSeriesCount from './components/TimeSeriesCount.vue'
 import HistoryTask from '../history/components/HistoryTask.vue'
-import { getIoTDBAggregateInfo, getTSDataSize } from '@/api/dashboard'
-import { use } from 'echarts'
+import {
+  getIoTDBConfigId,
+  getIoTDBAggregateInfo,
+  getTSDataSize,
+} from '@/api/dashboard'
+import { useIotdbConfigStore } from '@/stores/iotdbConfig'
+import { AirplaneOutline } from '@vicons/ionicons5'
+import { Result } from '@/utils/axios/types'
 
 /////////////////////////////////////////////
 // page lifecycle function code segment start
+const iotdbConfigStore = useIotdbConfigStore()
 onMounted(async () => {
-  getAggregateData()
+  if (iotdbConfigStore.icid === -1) {
+    await getIcId()
+  }
+  getAggregationData()
   getTSData()
 })
 // page lifecycle function code segment start
 /////////////////////////////////////////////
 
 /////////////////////////////////////////////
-// aggregate info related code segment start
-type AggregateInfo = {
-  time_series_num: number
-  device_num: number
-  database_num: number
-  analysis_num: number
+// iotdb config related code segment start
+const getIcId = async () => {
+  try {
+    const res = await getIoTDBConfigId(iotdbConfigStore.getIc())
+    iotdbConfigStore.icid = (res as Result).data
+  } catch (err) {
+    console.log(err)
+  }
+}
+/////////////////////////////////////////////
+
+/////////////////////////////////////////////
+// aggregation info related code segment start
+type AggregationInfo = {
+  num_time_series: number
+  num_devices: number
+  num_databases: number
+  num_analysis: number
 }
 
-let aggregateInfoLoading = ref(true)
-const aggregateInfo = ref<AggregateInfo>({
-  time_series_num: 0,
-  device_num: 0,
-  database_num: 0,
-  analysis_num: 0,
+let aggregationInfoLoading = ref(true)
+const aggregationInfo = ref<AggregationInfo>({
+  num_time_series: 0,
+  num_devices: 0,
+  num_databases: 0,
+  num_analysis: 0,
 })
 
-const getAggregateData = () => {
-  getIoTDBAggregateInfo()
+const getAggregationData = () => {
+  getIoTDBAggregateInfo(iotdbConfigStore.icid)
     .then((res: any) => {
-      aggregateInfo.value = res.data
-      aggregateInfoLoading.value = false
+      aggregationInfo.value = res.data
     })
     .catch((err) => {
       console.log(err)
-      aggregateInfoLoading.value = false
+    })
+    .finally(() => {
+      aggregationInfoLoading.value = false
     })
 }
 // aggregate info related code segment end
@@ -230,6 +274,12 @@ const i18n = useI18n()
 </script>
 
 <style scoped>
+.empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+}
 .chart {
   display: flex;
   flex-direction: column;

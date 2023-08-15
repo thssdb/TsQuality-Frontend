@@ -1,4 +1,6 @@
 export default {
+  'dashboard.empty.button.name': 'Create',
+
   'dashboard.total_count.time_series.title': 'Time Series Count',
   'dashboard.total_count.time_series.tag': 'Series',
   'dashboard.total_count.device.title': 'Device Count',
