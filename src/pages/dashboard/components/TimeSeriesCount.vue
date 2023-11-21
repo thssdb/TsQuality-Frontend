@@ -18,11 +18,11 @@ import { useI18n } from 'vue-i18n'
 const props = defineProps({
   names: {
     type: Array,
-    default: [],
+    default: () => [],
   },
   dataSizes: {
     type: Array,
-    default: [],
+    default: () => [],
   },
 })
 

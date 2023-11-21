@@ -3,7 +3,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, h, ref, Component } from 'vue'
+import { defineComponent, ref } from 'vue'
 import { topMenuList } from '../../utils/config'
 
 export default defineComponent({

@@ -1,6 +1,8 @@
 export default {
   'dashboard.empty.button.name': '创建',
 
+  'dashboard.total_count.data_points.title': '数据点总数',
+  'dashboard.total_count.data_points.tag': '点',
   'dashboard.total_count.time_series.title': '时间序列总数',
   'dashboard.total_count.time_series.tag': '序列',
   'dashboard.total_count.device.title': '设备总数',

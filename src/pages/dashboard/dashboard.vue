@@ -17,123 +17,17 @@
     </div>
   </div>
   <div v-else>
-    <n-grid
-      cols="1 s:2 m:3 l:4 xl:4 2xl:4"
-      responsive="screen"
-      :x-gap="12"
-      :y-gap="8"
-    >
-      <n-grid-item>
-        <n-card
-          hoverable
-          size="small"
-          :title="$t('dashboard.total_count.time_series.title')"
-          :bordered="false"
-          :segmented="{ content: true, footer: true }"
-        >
-          <template #header-extra>
-            <n-tag type="success">
-              {{ $t('dashboard.total_count.time_series.tag') }}
-            </n-tag>
-          </template>
-
-          <div class="px-1 py-1">
-            <n-skeleton
-              v-if="aggregationInfoLoading"
-              style="width: 100%"
-              size="medium"
-            />
-            <div v-else class="text-3xl">
-              {{ aggregationInfo.num_time_series }}
-            </div>
-          </div>
-        </n-card>
-      </n-grid-item>
-
-      <n-grid-item>
-        <n-card
-          hoverable
-          size="small"
-          :title="$t('dashboard.total_count.device.title')"
-          :bordered="false"
-          :segmented="{ content: true, footer: true }"
-        >
-          <template #header-extra>
-            <n-tag type="info">
-              {{ $t('dashboard.total_count.device.tag') }}
-            </n-tag>
-          </template>
-
-          <div class="px-1 py-1">
-            <n-skeleton
-              v-if="aggregationInfoLoading"
-              style="width: 100%"
-              size="medium"
-            />
-            <div v-else class="text-3xl">{{ aggregationInfo.num_devices }}</div>
-          </div>
-        </n-card>
-      </n-grid-item>
-
-      <n-grid-item>
-        <n-card
-          hoverable
-          size="small"
-          :title="$t('dashboard.total_count.database.title')"
-          :bordered="false"
-          :segmented="{ content: true, footer: true }"
-        >
-          <template #header-extra>
-            <n-tag type="warning">
-              {{ $t('dashboard.total_count.database.tag') }}
-            </n-tag>
-          </template>
-
-          <div class="px-1 py-1">
-            <n-skeleton
-              v-if="aggregationInfoLoading"
-              style="width: 100%"
-              size="medium"
-            />
-            <div v-else class="text-3xl">
-              {{ aggregationInfo.num_databases }}
-            </div>
-          </div>
-        </n-card>
-      </n-grid-item>
-
-      <n-grid-item>
-        <n-card
-          hoverable
-          size="small"
-          :title="$t('dashboard.total_count.analysis.title')"
-          :bordered="false"
-          :segmented="{ content: true, footer: true }"
-        >
-          <template #header-extra>
-            <n-tag type="error">
-              {{ $t('dashboard.total_count.analysis.tag') }}
-            </n-tag>
-          </template>
-
-          <div class="px-1 py-1">
-            <n-skeleton
-              v-if="aggregationInfoLoading"
-              style="width: 100%"
-              size="medium"
-            />
-            <div v-else class="text-3xl">
-              {{ aggregationInfo.num_analysis }}
-            </div>
-          </div>
-        </n-card>
-      </n-grid-item>
-    </n-grid>
-
     <n-card class="mt-4">
+      <DashboardHeader
+        class="mb-8"
+        :aggregation-info="aggregationInfo"
+        :is-aggregation-info-loading="aggregationInfoLoading"
+      />
+
       <div v-if="tsDataLoading">
         <n-skeleton v-for="n in tsDataPagination.pageSize" text size="small" />
       </div>
+
       <div class="chart" v-else>
         <TimeSeriesCount v-bind="tsData" />
         <n-pagination
@@ -152,6 +46,7 @@
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n'
 import { onMounted, reactive, ref } from 'vue'
+import { AirplaneOutline } from '@vicons/ionicons5'
 import TimeSeriesCount from './components/TimeSeriesCount.vue'
 import HistoryTask from '../history/components/HistoryTask.vue'
 import {
@@ -160,10 +55,10 @@ import {
   getTSDataSize,
 } from '@/api/dashboard'
 import { useIotdbConfigStore } from '@/stores/iotdbConfig'
-import { AirplaneOutline } from '@vicons/ionicons5'
 import { Result } from '@/utils/axios/types'
+import DashboardHeader from '@/pages/dashboard/components/DashboardHeader.vue'
 
-/////////////////////////////////////////////
+/// //////////////////////////////////////////
 // page lifecycle function code segment start
 const iotdbConfigStore = useIotdbConfigStore()
 onMounted(async () => {
@@ -174,31 +69,25 @@ onMounted(async () => {
   getTSData()
 })
 // page lifecycle function code segment start
-/////////////////////////////////////////////
+/// //////////////////////////////////////////
 
-/////////////////////////////////////////////
+/// //////////////////////////////////////////
 // iotdb config related code segment start
 const getIcId = async () => {
   try {
     const res = await getIoTDBConfigId(iotdbConfigStore.getIc())
     iotdbConfigStore.icid = (res as Result).data
   } catch (err) {
+    iotdbConfigStore.icid = 1
     console.log(err)
   }
 }
-/////////////////////////////////////////////
+/// //////////////////////////////////////////
 
-/////////////////////////////////////////////
+/// //////////////////////////////////////////
 // aggregation info related code segment start
-type AggregationInfo = {
-  num_time_series: number
-  num_devices: number
-  num_databases: number
-  num_analysis: number
-}
-
-let aggregationInfoLoading = ref(true)
-const aggregationInfo = ref<AggregationInfo>({
+const aggregationInfoLoading = ref(true)
+const aggregationInfo = ref({
   num_time_series: 0,
   num_devices: 0,
   num_databases: 0,
@@ -218,16 +107,16 @@ const getAggregationData = () => {
     })
 }
 // aggregate info related code segment end
-/////////////////////////////////////////////
+/// //////////////////////////////////////////
 
-/////////////////////////////////////////////
+/// //////////////////////////////////////////
 // timeseries info related code segment start
 interface TsInfo {
   names: [string] | []
   dataSizes: [number] | []
 }
 
-let tsData = ref<TsInfo>({
+const tsData = ref<TsInfo>({
   names: [],
   dataSizes: [],
 })
@@ -268,7 +157,7 @@ function handleTSDataPageChange(currentPage: number) {
   getTSData(currentPage)
 }
 // timeseries info related code segment end
-/////////////////////////////////////////////
+/// //////////////////////////////////////////
 
 const i18n = useI18n()
 </script>
