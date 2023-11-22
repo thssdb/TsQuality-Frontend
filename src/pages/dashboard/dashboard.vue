@@ -19,7 +19,6 @@
   <div v-else>
     <n-card class="mt-4">
       <DashboardHeader
-        class="mb-8"
         :aggregation-info="aggregationInfo"
         :is-aggregation-info-loading="aggregationInfoLoading"
       />
@@ -44,73 +43,52 @@
 </template>
 
 <script setup lang="ts">
-import { useI18n } from 'vue-i18n'
 import { onMounted, reactive, ref } from 'vue'
 import { AirplaneOutline } from '@vicons/ionicons5'
 import TimeSeriesCount from './components/TimeSeriesCount.vue'
 import HistoryTask from '../history/components/HistoryTask.vue'
 import {
   getIoTDBConfigId,
-  getIoTDBAggregateInfo,
+  getIoTDBAggregationInfo,
   getTSDataSize,
 } from '@/api/dashboard'
 import { useIotdbConfigStore } from '@/stores/iotdbConfig'
-import { Result } from '@/utils/axios/types'
-import DashboardHeader from '@/pages/dashboard/components/DashboardHeader.vue'
+import DashboardHeader from './components/DashboardHeader.vue'
+import { AggregationInfo } from '#/dataQuality'
 
-/// //////////////////////////////////////////
-// page lifecycle function code segment start
 const iotdbConfigStore = useIotdbConfigStore()
-onMounted(async () => {
-  if (iotdbConfigStore.icid === -1) {
-    await getIcId()
-  }
-  getAggregationData()
-  getTSData()
-})
-// page lifecycle function code segment start
-/// //////////////////////////////////////////
-
-/// //////////////////////////////////////////
-// iotdb config related code segment start
 const getIcId = async () => {
   try {
     const res = await getIoTDBConfigId(iotdbConfigStore.getIc())
-    iotdbConfigStore.icid = (res as Result).data
+    iotdbConfigStore.icid = res
   } catch (err) {
     iotdbConfigStore.icid = 1
     console.log(err)
   }
 }
-/// //////////////////////////////////////////
 
-/// //////////////////////////////////////////
-// aggregation info related code segment start
 const aggregationInfoLoading = ref(true)
-const aggregationInfo = ref({
-  num_time_series: 0,
-  num_devices: 0,
-  num_databases: 0,
-  num_analysis: 0,
+const aggregationInfo = ref<AggregationInfo>({
+  numDataPoints: 0,
+  numTimeSeries: 0,
+  numDevices: 0,
+  numDatabases: 0,
+  completeness: 0,
+  consistency: 0,
+  timeliness: 0,
+  validity: 0,
 })
-
-const getAggregationData = () => {
-  getIoTDBAggregateInfo(iotdbConfigStore.icid)
-    .then((res: any) => {
-      aggregationInfo.value = res.data
-    })
-    .catch((err) => {
-      console.log(err)
-    })
-    .finally(() => {
-      aggregationInfoLoading.value = false
-    })
+const getAggregationData = async () => {
+  try {
+    const res = await getIoTDBAggregationInfo(iotdbConfigStore.icid)
+    aggregationInfo.value = res
+  } catch (err) {
+    console.log(err)
+  } finally {
+    aggregationInfoLoading.value = false
+  }
 }
-// aggregate info related code segment end
-/// //////////////////////////////////////////
 
-/// //////////////////////////////////////////
-// timeseries info related code segment start
 interface TsInfo {
   names: [string] | []
   dataSizes: [number] | []
@@ -128,26 +106,33 @@ const tsDataPagination = reactive({
   itemCount: 0,
 })
 
-const getTSData = (page_index: number = tsDataPagination.page) => {
+const getTSData = async (pageIndex: number = tsDataPagination.page) => {
   tsDataLoading.value = true
-  getTSDataSize({
-    page_index,
-    page_size: tsDataPagination.pageSize,
-  })
-    .then((res: any) => {
-      tsDataLoading.value = false
-      tsDataPagination.page = res.data.page_index
-      tsDataPagination.itemCount = res.data.total
-      tsDataPagination.pageCount = res.data.page_count
-      tsData.value = {
-        names: res.data.info.map((x: any) => x.name),
-        dataSizes: res.data.info.map((x: any) => x.data_size),
-      }
+  try {
+    const res = await getTSDataSize({
+      page_index: pageIndex,
+      page_size: tsDataPagination.pageSize,
     })
-    .catch((err) => {
-      console.log(err)
-    })
+    tsDataLoading.value = false
+    tsDataPagination.page = res.data.page_index
+    tsDataPagination.itemCount = res.data.total
+    tsDataPagination.pageCount = res.data.page_count
+    tsData.value = {
+      names: res.data.info.map((x: any) => x.name),
+      dataSizes: res.data.info.map((x: any) => x.data_size),
+    }
+  } catch (err) {
+    console.log(err)
+  }
 }
+
+onMounted(async () => {
+  if (iotdbConfigStore.icid === -1) {
+    await getIcId()
+  }
+  await getAggregationData()
+  // await getTSData()
+})
 
 function handleTSDataPageChange(currentPage: number) {
   if (tsDataLoading.value) {
@@ -158,8 +143,6 @@ function handleTSDataPageChange(currentPage: number) {
 }
 // timeseries info related code segment end
 /// //////////////////////////////////////////
-
-const i18n = useI18n()
 </script>
 
 <style scoped>

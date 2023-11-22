@@ -1,16 +1,17 @@
 <template>
   <n-grid
+    class="mb-6"
     cols="1 s:2 m:3 l:4 xl:4 2xl:4"
     responsive="screen"
-    :x-gap="12"
-    :y-gap="8"
+    :x-gap="gridItemXGap"
+    :y-gap="gridItemYGap"
   >
     <n-grid-item>
       <AggregationInfoItem
         tag-type="success"
         :title="$t('dashboard.total_count.data_points.title')"
         :tag="$t('dashboard.total_count.data_points.tag')"
-        :content="aggregationInfo.num_data_points"
+        :content="aggregationInfo.numDataPoints"
         :is-loading="isAggregationInfoLoading"
       />
     </n-grid-item>
@@ -20,7 +21,7 @@
         tag-type="info"
         :title="$t('dashboard.total_count.time_series.title')"
         :tag="$t('dashboard.total_count.time_series.tag')"
-        :content="aggregationInfo.num_time_series"
+        :content="aggregationInfo.numTimeSeries"
         :is-loading="isAggregationInfoLoading"
       />
     </n-grid-item>
@@ -30,7 +31,7 @@
         tag-type="warning"
         :title="$t('dashboard.total_count.device.title')"
         :tag="$t('dashboard.total_count.device.tag')"
-        :content="aggregationInfo.num_devices"
+        :content="aggregationInfo.numDevices"
         :is-loading="isAggregationInfoLoading"
       />
     </n-grid-item>
@@ -40,7 +41,47 @@
         tag-type="error"
         :title="$t('dashboard.total_count.database.title')"
         :tag="$t('dashboard.total_count.database.tag')"
-        :content="aggregationInfo.num_databases"
+        :content="aggregationInfo.numDatabases"
+        :is-loading="isAggregationInfoLoading"
+      />
+    </n-grid-item>
+  </n-grid>
+
+  <n-grid
+    class="mb-4"
+    cols="1 s:2 m:3 l:4 xl:4 2xl:4"
+    responsive="screen"
+    :x-gap="gridItemXGap"
+    :y-gap="gridItemYGap"
+  >
+    <n-grid-item>
+      <AggregationInfoItem
+        :title="$t('global.data_quality.metrics.completeness')"
+        :content="aggregationInfo.completeness"
+        :is-loading="isAggregationInfoLoading"
+      />
+    </n-grid-item>
+
+    <n-grid-item>
+      <AggregationInfoItem
+        :title="$t('global.data_quality.metrics.consistency')"
+        :content="aggregationInfo.consistency"
+        :is-loading="isAggregationInfoLoading"
+      />
+    </n-grid-item>
+
+    <n-grid-item>
+      <AggregationInfoItem
+        :title="$t('global.data_quality.metrics.timeliness')"
+        :content="aggregationInfo.timeliness"
+        :is-loading="isAggregationInfoLoading"
+      />
+    </n-grid-item>
+
+    <n-grid-item>
+      <AggregationInfoItem
+        :title="$t('global.data_quality.metrics.validity')"
+        :content="aggregationInfo.validity"
         :is-loading="isAggregationInfoLoading"
       />
     </n-grid-item>
@@ -49,14 +90,11 @@
 
 <script setup lang="ts">
 import { PropType } from 'vue'
+import { AggregationInfo } from '#/dataQuality'
 import AggregationInfoItem from './AggregationInfoItem.vue'
 
-type AggregationInfo = {
-  num_data_points: number
-  num_time_series: number
-  num_devices: number
-  num_databases: number
-}
+const gridItemXGap = 12
+const gridItemYGap = 8
 
 defineProps({
   aggregationInfo: {

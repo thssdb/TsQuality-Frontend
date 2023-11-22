@@ -5,7 +5,7 @@
     :title="title"
     :segmented="{ content: true, footer: true }"
   >
-    <template #header-extra>
+    <template #header-extra v-if="tag !== ''">
       <n-tag :type="tagType">
         {{ tag }}
       </n-tag>
@@ -32,7 +32,7 @@ defineProps({
     type: String as PropType<
       'default' | 'error' | 'primary' | 'info' | 'success' | 'warning'
     >,
-    required: true,
+    default: 'default',
   },
   tag: {
     type: String,

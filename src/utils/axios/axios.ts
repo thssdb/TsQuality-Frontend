@@ -1,10 +1,14 @@
-import axios, { AxiosError, AxiosInstance } from 'axios'
-import { AxiosResponse } from 'axios'
-import { AxiosRequestConfig } from 'axios'
+import axios, {
+  AxiosError,
+  AxiosInstance,
+  AxiosResponse,
+  AxiosRequestConfig,
+} from 'axios'
 import { Result } from './types'
 
-export class TsQualityAxios {
+export default class TsQualityAxios {
   private instance: AxiosInstance
+
   private config: AxiosRequestConfig
 
   constructor(config: AxiosRequestConfig) {
@@ -15,13 +19,8 @@ export class TsQualityAxios {
 
   private setupInterceptors() {
     this.instance.interceptors.response.use(
-      (res: AxiosResponse) => {
-        // TODO: handle according to the data returned by the backend
-        return res
-      },
-      (err: AxiosError) => {
-        return Promise.reject(err.response?.data)
-      }
+      (res: AxiosResponse) => res,
+      (err: AxiosError) => Promise.reject(err.response?.data)
     )
   }
 
@@ -38,15 +37,11 @@ export class TsQualityAxios {
   }
 
   public request(config: AxiosRequestConfig) {
-    return new Promise((resolve, reject) => {
+    return new Promise<Result>((resolve, reject) => {
       this.instance
         .request<Result, AxiosResponse<Result>>(config)
         .then((res: AxiosResponse<Result>) => {
-          if (res.data.code == 0) {
-            resolve(res.data)
-          } else {
-            reject(res)
-          }
+          resolve(res.data)
         })
         .catch((e: Error) => {
           reject(e)
