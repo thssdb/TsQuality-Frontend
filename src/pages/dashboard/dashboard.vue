@@ -1,5 +1,8 @@
 <template>
-  <div class="empty" v-if="iotdbConfigStore.icid === -1">
+  <div
+    v-if="iotdbConfigStore.icid === -1"
+    class="empty"
+  >
     <n-empty
       :description="$t('global.empty_iotdb_config.description')"
       class="mt-24"
@@ -24,10 +27,17 @@
       />
 
       <div v-if="tsDataLoading">
-        <n-skeleton v-for="n in tsDataPagination.pageSize" text size="small" />
+        <n-skeleton
+          v-for="n in tsDataPagination.pageSize"
+          text
+          size="small"
+        />
       </div>
 
-      <div class="chart" v-else>
+      <div
+        v-else
+        class="chart"
+      >
         <TimeSeriesCount v-bind="tsData" />
         <n-pagination
           style="align-self: flex-end"
@@ -53,8 +63,10 @@ import {
   getTSDataSize,
 } from '@/api/dashboard'
 import { useIotdbConfigStore } from '@/stores/iotdbConfig'
-import DashboardHeader from './components/DashboardHeader.vue'
-import { AggregationInfo } from '#/dataQuality'
+
+import { AggregationInfo } from "#/dataQuality";
+import DashboardHeader from "@/pages/dashboard/components/DashboardHeader.vue";
+
 
 const iotdbConfigStore = useIotdbConfigStore()
 const getIcId = async () => {
