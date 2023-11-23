@@ -1,15 +1,7 @@
-import { Axios } from 'axios'
+import axios, { AxiosInstance } from 'axios'
 
-// function createAxios(config?: AxiosRequestConfig) {
-//   return new TsQualityAxios({
-//     timeout: 10 * 1000,
-//     // baseURL: 'http://mock/api',
-//     baseURL: 'http://localhost:8888/api/v1',
-//   })
-// }
-
-function createAxios(): Axios {
-  return new Axios({
+function createAxios(): AxiosInstance {
+  return axios.create({
     timeout: 10 * 1000,
     baseURL: 'http://localhost:8888/api/v1',
   })

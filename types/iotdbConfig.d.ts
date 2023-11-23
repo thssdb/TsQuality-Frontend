@@ -1,4 +1,5 @@
-type IotDBConfig = {
+type IoTDBConfig = {
+  id: number
   host: string
   port: number
   username: string

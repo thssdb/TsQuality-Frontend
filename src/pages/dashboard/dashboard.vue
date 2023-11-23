@@ -1,8 +1,5 @@
 <template>
-  <div
-    v-if="iotdbConfigStore.icid === -1"
-    class="empty"
-  >
+  <div v-if="iotdbConfigStore.icid === -1" class="empty">
     <n-empty
       :description="$t('global.empty_iotdb_config.description')"
       class="mt-24"
@@ -27,17 +24,10 @@
       />
 
       <div v-if="tsDataLoading">
-        <n-skeleton
-          v-for="n in tsDataPagination.pageSize"
-          text
-          size="small"
-        />
+        <n-skeleton v-for="n in tsDataPagination.pageSize" text size="small" />
       </div>
 
-      <div
-        v-else
-        class="chart"
-      >
+      <div v-else class="chart">
         <TimeSeriesCount v-bind="tsData" />
         <n-pagination
           style="align-self: flex-end"
@@ -62,19 +52,17 @@ import {
   getIoTDBAggregationInfo,
   getTSDataSize,
 } from '@/api/dashboard'
-import { useIotdbConfigStore } from '@/stores/iotdbConfig'
+import { useIoTDBConfigStore } from '@/stores/iotdbConfig'
 
-import { AggregationInfo } from "#/dataQuality";
-import DashboardHeader from "@/pages/dashboard/components/DashboardHeader.vue";
+import { AggregationInfo } from '#/dataQuality'
+import DashboardHeader from '@/pages/dashboard/components/DashboardHeader.vue'
 
-
-const iotdbConfigStore = useIotdbConfigStore()
+let iotdbConfigStore = useIoTDBConfigStore()
 const getIcId = async () => {
   try {
-    const res = await getIoTDBConfigId(iotdbConfigStore.getIc())
-    iotdbConfigStore.icid = res
+    const res = await getIoTDBConfigId(iotdbConfigStore.config)
+    iotdbConfigStore.config.id = res.data
   } catch (err) {
-    iotdbConfigStore.icid = 1
     console.log(err)
   }
 }
@@ -92,8 +80,8 @@ const aggregationInfo = ref<AggregationInfo>({
 })
 const getAggregationData = async () => {
   try {
-    const res = await getIoTDBAggregationInfo(iotdbConfigStore.icid)
-    aggregationInfo.value = res
+    const res = await getIoTDBAggregationInfo(iotdbConfigStore.config.id)
+    aggregationInfo.value = res.data
   } catch (err) {
     console.log(err)
   } finally {
@@ -139,7 +127,7 @@ const getTSData = async (pageIndex: number = tsDataPagination.page) => {
 }
 
 onMounted(async () => {
-  if (iotdbConfigStore.icid === -1) {
+  if (iotdbConfigStore.config.id === -1) {
     await getIcId()
   }
   await getAggregationData()
@@ -153,8 +141,6 @@ function handleTSDataPageChange(currentPage: number) {
   }
   getTSData(currentPage)
 }
-// timeseries info related code segment end
-/// //////////////////////////////////////////
 </script>
 
 <style scoped>

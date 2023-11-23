@@ -1,7 +1,8 @@
 import { http } from '@/utils/axios'
+import { AggregationInfo } from '#/dataQuality'
 
-export async function getIoTDBConfigId(ic: IotDBConfig) {
-  return http.request({
+export async function getIoTDBConfigId(ic: IoTDBConfig) {
+  return http.request<number>({
     url: '/iotdb-config',
     method: 'POST',
     data: ic,
@@ -9,7 +10,7 @@ export async function getIoTDBConfigId(ic: IotDBConfig) {
 }
 
 export async function getIoTDBAggregationInfo(id: number) {
-  return http.request({
+  return http.request<AggregationInfo>({
     url: `/iotdb/${id}/aggregation-info`,
   })
 }

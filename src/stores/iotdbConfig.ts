@@ -1,32 +1,43 @@
 import { defineStore } from 'pinia'
+import { reactive } from 'vue'
 
-export const useIotdbConfigStore = defineStore('iotdbConfig', {
-  state: () => {
-    return {
-      icid: -1,
+// export const useIotdbConfigStore = defineStore('iotdbConfig', {
+//   state: () => {
+//     return {
+//       id: -1,
+//       host: 'localhost',
+//       port: 6667,
+//       username: 'root',
+//       password: 'root',
+//     }
+//   },
+//   actions: {
+//     setIc(config: IoTDBConfig) {},
+//     getIc(): IoTDBConfig {
+//       return {
+//         id: this.id,
+//         host: this.host,
+//         port: this.port,
+//         username: this.username,
+//         password: this.password,
+//       }
+//     },
+//   },
+// })
+
+export const useIoTDBConfigStore = defineStore(
+  'iotdbConfig',
+  () => {
+    const config = reactive({
+      id: -1,
       host: 'localhost',
       port: 6667,
       username: 'root',
       password: 'root',
-    }
+    })
+    return { config }
   },
-  actions: {
-    setIcId(configId: number) {
-      this.icid = configId
-    },
-    setIc(ic: IotDBConfig) {
-      this.host = ic.host
-      this.port = ic.port
-      this.username = ic.username
-      this.password = ic.password
-    },
-    getIc(): IotDBConfig {
-      return {
-        host: this.host,
-        port: this.port,
-        username: this.username,
-        password: this.password,
-      }
-    },
+  {
+    persist: true,
   },
-})
+)
