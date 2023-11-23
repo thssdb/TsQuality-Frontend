@@ -1,6 +1,6 @@
 import { RouteRecordRaw, createRouter, createWebHistory } from 'vue-router'
 import { App } from 'vue'
-import { PageEnum } from '../enums/pageEnum'
+import { PageEnum } from '@/enums/pageEnum'
 import { RouteEnum } from '@/enums/routeEnum'
 import { Layout } from './constants'
 
@@ -94,12 +94,12 @@ export const SettingsRoute: RouteRecordRaw = {
     {
       path: 'index',
       name: RouteEnum.SETTINGS,
-      component: () => import('../pages/settings/settings.vue'),
+      component: () => import('../pages/settings/SettingsPage.vue'),
     },
   ],
 }
 
-export const constantRouter: any[] = [
+export const constantRouter: RouteRecordRaw[] = [
   RootRoute,
   RedirectRoute,
   DashboardRoute,

@@ -17,12 +17,13 @@
             responsive="screen"
             label-placement="left"
             cols="1 s:1 m:3 l:3 xl:3 2xl:3"
-            :model="formValue"
             :label-width="120"
+            :model="formValue"
+            :rules="rules"
           >
             <n-form-item
-              :label="$t('settings.configuration.items.host.title')"
               path="host"
+              :label="$t('settings.configuration.items.host.title')"
             >
               <n-input
                 v-model:value="formValue.host"
@@ -32,8 +33,9 @@
               />
             </n-form-item>
             <n-form-item
-              :label="$t('settings.configuration.items.port.title')"
+              first
               path="port"
+              :label="$t('settings.configuration.items.port.title')"
             >
               <n-input
                 v-model:value="formValue.port"
@@ -43,8 +45,8 @@
               />
             </n-form-item>
             <n-form-item
-              :label="$t('settings.configuration.items.username.title')"
               path="username"
+              :label="$t('settings.configuration.items.username.title')"
             >
               <n-input
                 v-model:value="formValue.username"
@@ -54,8 +56,8 @@
               />
             </n-form-item>
             <n-form-item
-              :label="$t('settings.configuration.items.password.title')"
               path="password"
+              :label="$t('settings.configuration.items.password.title')"
             >
               <n-input
                 v-model:value="formValue.password"
@@ -83,62 +85,31 @@
 </template>
 
 <script setup lang="ts">
-import { FormRules, useMessage } from 'naive-ui'
-import { ref, unref } from 'vue'
+import { NForm, useMessage } from 'naive-ui'
+import { ref } from 'vue'
+import { defaultFormValue, formValue, rules } from './form'
+import { useI18n } from 'vue-i18n'
+import { useIoTDBConfigStore } from '@/stores/iotdbConfig'
 
-const formRef = ref<any>(null)
-
-const rules = ref<FormRules>({
-  host: {
-    required: true,
-    type: 'string',
-    message: '请输入IoTDB地址',
-  },
-  port: {
-    required: true,
-    type: 'number',
-    message: '请输入IoTDB端口号',
-  },
-  username: {
-    required: true,
-    type: 'string',
-    message: '请输入IoTDB用户名',
-  },
-  password: {
-    required: true,
-    type: 'string',
-    message: '请输入IoTDB用户密码',
-  },
-})
-
-let formValue = ref<any>({
-  host: 'localhost',
-  port: '6667',
-  username: 'root',
-  password: 'root',
-})
-
+const { t } = useI18n()
 const message = useMessage()
+const formRef = ref<InstanceType<typeof NForm> | null>(null)
+let iotdbConfigStore = useIoTDBConfigStore()
 
 const formSubmit = () => {
-  formRef.value.validate((errors: any) => {
-    if (!errors) {
-      message.success('验证成功')
-    } else {
-      message.error('验证失败，请填写完整信息')
-    }
-  })
+  formRef.value
+    ?.validate()
+    .then(() => {
+      Object.assign(iotdbConfigStore.config, formValue)
+      message.success(t('settings.configuration.validation.success'))
+    })
+    .catch(() => {
+      message.error(t('settings.configuration.validation.error'))
+    })
 }
 
-const defaultValue = () => ({
-  host: 'localhost',
-  port: 6667,
-  username: 'root',
-  password: 'root',
-})
-
 function resetForm() {
-  formRef.value.restoreValidation()
-  formValue = Object.assign(unref(formValue), defaultValue())
+  formRef.value?.restoreValidation()
+  Object.assign(formValue, defaultFormValue())
 }
 </script>

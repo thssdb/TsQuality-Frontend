@@ -1,7 +1,7 @@
-type IoTDBConfig = {
-  id: number
+interface IoTDBConfig {
+  id?: number
   host: string
-  port: number
+  port: string
   username: string
   password: string
 }

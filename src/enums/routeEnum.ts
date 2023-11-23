@@ -10,8 +10,8 @@ export enum RouteEnum {
   HISTORY = 'history',
 
   ANALYZE = 'analyze',
-  ANALYZE_OVERVIEW = `${ANALYZE}_overview`,
-  ANALYZE_DETAIL = `${ANALYZE}_detail`,
+  ANALYZE_OVERVIEW = `analyze_overview`,
+  ANALYZE_DETAIL = `analyze_detail`,
 
   USER = 'user',
 
