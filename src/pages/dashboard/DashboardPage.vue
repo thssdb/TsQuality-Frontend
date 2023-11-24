@@ -1,61 +1,40 @@
 <template>
-  <div v-if="iotdbConfigStore.icid === -1" class="empty">
-    <n-empty
-      :description="$t('global.empty_iotdb_config.description')"
-      class="mt-24"
-    >
-      <template #icon>
-        <n-icon>
-          <AirplaneOutline />
-        </n-icon>
-      </template>
-    </n-empty>
-    <div class="mt-10">
-      <n-button type="primary">
-        {{ $t('dashboard.empty.button.name') }}
-      </n-button>
+  <n-card class="mt-4">
+    <DashboardHeader
+      :aggregation-info="aggregationInfo"
+      :is-aggregation-info-loading="aggregationInfoLoading"
+    />
+
+    <div v-if="tsDataLoading">
+      <n-skeleton v-for="n in tsDataPagination.pageSize" text size="small" />
     </div>
-  </div>
-  <div v-else>
-    <n-card class="mt-4">
-      <DashboardHeader
-        :aggregation-info="aggregationInfo"
-        :is-aggregation-info-loading="aggregationInfoLoading"
+
+    <div v-else class="chart">
+      <!--      <TimeSeriesCount v-bind="tsData" />-->
+      <n-pagination
+        style="align-self: flex-end"
+        :page="tsDataPagination.page"
+        :page-count="tsDataPagination.pageCount"
+        @update:page="handleTSDataPageChange"
       />
+    </div>
+  </n-card>
 
-      <div v-if="tsDataLoading">
-        <n-skeleton v-for="n in tsDataPagination.pageSize" text size="small" />
-      </div>
-
-      <div v-else class="chart">
-        <TimeSeriesCount v-bind="tsData" />
-        <n-pagination
-          style="align-self: flex-end"
-          :page="tsDataPagination.page"
-          :page-count="tsDataPagination.pageCount"
-          @update:page="handleTSDataPageChange"
-        />
-      </div>
-    </n-card>
-
-    <HistoryTask />
-  </div>
+  <DQOverviewTable class="mt-6" />
 </template>
 
 <script setup lang="ts">
 import { onMounted, reactive, ref } from 'vue'
-import { AirplaneOutline } from '@vicons/ionicons5'
-import TimeSeriesCount from './components/TimeSeriesCount.vue'
-import HistoryTask from '../history/components/HistoryTask.vue'
 import {
-  getIoTDBConfigId,
   getIoTDBAggregationInfo,
+  getIoTDBConfigId,
   getTSDataSize,
 } from '@/api/dashboard'
 import { useIoTDBConfigStore } from '@/stores/iotdbConfig'
 
-import { AggregationInfo } from '#/dataQuality'
-import DashboardHeader from '@/pages/dashboard/components/DashboardHeader.vue'
+import DashboardHeader from './components/DashboardHeader.vue'
+import { AggregationInfo } from '@/models/dataQuality'
+import DQOverviewTable from './components/dq-overview-table/DQOverviewTable.vue'
 
 let iotdbConfigStore = useIoTDBConfigStore()
 const getIcId = async () => {
@@ -68,16 +47,7 @@ const getIcId = async () => {
 }
 
 const aggregationInfoLoading = ref(true)
-const aggregationInfo = ref<AggregationInfo>({
-  numDataPoints: 0,
-  numTimeSeries: 0,
-  numDevices: 0,
-  numDatabases: 0,
-  completeness: 0,
-  consistency: 0,
-  timeliness: 0,
-  validity: 0,
-})
+const aggregationInfo = ref<AggregationInfo>(new AggregationInfo())
 const getAggregationData = async () => {
   try {
     const res = await getIoTDBAggregationInfo(iotdbConfigStore.config.id)

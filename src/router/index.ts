@@ -32,7 +32,7 @@ export const DashboardRoute: RouteRecordRaw = {
     {
       path: 'console',
       name: RouteEnum.DASHBOARD,
-      component: () => import('../pages/dashboard/dashboard.vue'),
+      component: () => import('../pages/dashboard/DashboardPage.vue'),
     },
   ],
 }

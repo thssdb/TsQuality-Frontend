@@ -14,4 +14,11 @@ export default {
 
   'dashboard.bar_chart.title': '各时间序列数据量',
   'dashboard.bar_chart.tooltip': '数据量',
+
+  'dashboard.overview_table.title': '数据质量概览',
+  'dashboard.overview_table.columns.no.title': '序号',
+  'dashboard.overview_table.columns.name.title': '名称',
+  'dashboard.overview_table.columns.data_size.title': '数据量',
+  'dashboard.overview_table.columns.action.title': '操作',
+  'dashboard.overview_table.columns.action.content': '详情',
 }

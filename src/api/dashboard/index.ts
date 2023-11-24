@@ -1,5 +1,5 @@
 import { http } from '@/utils/axios'
-import { AggregationInfo } from '#/dataQuality'
+import { AggregationInfo } from '@/models/dataQuality'
 
 export async function getIoTDBConfigId(ic: IoTDBConfig) {
   return http.request<number>({

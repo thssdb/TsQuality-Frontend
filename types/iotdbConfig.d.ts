@@ -1,5 +1,5 @@
 interface IoTDBConfig {
-  id?: number
+  id: number
   host: string
   port: string
   username: string

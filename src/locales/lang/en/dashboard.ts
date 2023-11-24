@@ -14,4 +14,11 @@ export default {
 
   'dashboard.bar_chart.title': 'Time Series Data Sizes',
   'dashboard.bar_chart.tooltip': 'data size',
+
+  'dashboard.overview_table.title': 'Data Quality Overview',
+  'dashboard.overview_table.columns.no.title': 'No',
+  'dashboard.overview_table.columns.name.title': 'Name',
+  'dashboard.overview_table.columns.data_size.title': 'Data Size',
+  'dashboard.overview_table.columns.action.title': 'Action',
+  'dashboard.overview_table.columns.action.content': 'Detail',
 }

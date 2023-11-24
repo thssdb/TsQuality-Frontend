@@ -90,8 +90,8 @@
 
 <script setup lang="ts">
 import { PropType } from 'vue'
-import { AggregationInfo } from '#/dataQuality'
 import AggregationInfoItem from './AggregationInfoItem.vue'
+import { AggregationInfo } from '@/models/dataQuality'
 
 const gridItemXGap = 12
 const gridItemYGap = 8
