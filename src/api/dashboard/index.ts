@@ -15,6 +15,12 @@ export async function getIoTDBAggregationInfo(id: number) {
   })
 }
 
+export async function getTimeSeriesOverview(id: number) {
+  return http.request<Array<DQOverviewDto>>({
+    url: `/iotdb/${id}/time-series/overview`,
+  })
+}
+
 export async function getTSDataSize(params?: object) {
   return http.request({
     url: '/1/ts-data-size',

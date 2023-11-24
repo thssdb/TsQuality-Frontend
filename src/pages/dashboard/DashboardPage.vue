@@ -1,26 +1,28 @@
 <template>
-  <n-card class="mt-4">
-    <DashboardHeader
-      :aggregation-info="aggregationInfo"
-      :is-aggregation-info-loading="aggregationInfoLoading"
-    />
-
-    <div v-if="tsDataLoading">
-      <n-skeleton v-for="n in tsDataPagination.pageSize" text size="small" />
-    </div>
-
-    <div v-else class="chart">
-      <!--      <TimeSeriesCount v-bind="tsData" />-->
-      <n-pagination
-        style="align-self: flex-end"
-        :page="tsDataPagination.page"
-        :page-count="tsDataPagination.pageCount"
-        @update:page="handleTSDataPageChange"
+  <div>
+    <n-card class="mt-4">
+      <DashboardHeader
+        :aggregation-info="aggregationInfo"
+        :is-aggregation-info-loading="aggregationInfoLoading"
       />
-    </div>
-  </n-card>
 
-  <DQOverviewTable class="mt-6" />
+      <div v-if="tsDataLoading">
+        <n-skeleton v-for="n in tsDataPagination.pageSize" text size="small" />
+      </div>
+
+      <div v-else class="chart">
+        <!--      <TimeSeriesCount v-bind="tsData" />-->
+        <n-pagination
+          style="align-self: flex-end"
+          :page="tsDataPagination.page"
+          :page-count="tsDataPagination.pageCount"
+          @update:page="handleTSDataPageChange"
+        />
+      </div>
+    </n-card>
+
+    <DQOverviewTable class="mt-6" />
+  </div>
 </template>
 
 <script setup lang="ts">

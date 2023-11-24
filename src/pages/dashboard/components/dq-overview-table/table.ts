@@ -59,7 +59,3 @@ export const createColumns = ({
     },
   ]
 }
-
-export const getData = (): Array<DQOverviewItem> => {
-  return [new DQOverviewItem(1, 'root.sg1.d1.s1', 100)]
-}
