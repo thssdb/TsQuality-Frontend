@@ -30,6 +30,7 @@ declare module '@vue/runtime-core' {
     NLayoutHeader: (typeof import('naive-ui'))['NLayoutHeader']
     NLayoutSider: (typeof import('naive-ui'))['NLayoutSider']
     NMenu: (typeof import('naive-ui'))['NMenu']
+    NNumberAnimation: (typeof import('naive-ui'))['NNumberAnimation']
     NPagination: (typeof import('naive-ui'))['NPagination']
     NSelect: (typeof import('naive-ui'))['NSelect']
     NSkeleton: (typeof import('naive-ui'))['NSkeleton']

@@ -5,7 +5,7 @@
     :title="title"
     :segmented="{ content: true, footer: true }"
   >
-    <template #header-extra v-if="tag !== ''">
+    <template v-if="tag !== ''" #header-extra>
       <n-tag :type="tagType">
         {{ tag }}
       </n-tag>
@@ -14,7 +14,7 @@
     <div class="px-1 py-1">
       <n-skeleton v-if="isLoading" style="width: 100%" size="medium" />
       <div v-else class="text-3xl">
-        {{ content }}
+        <n-number-animation :from="0" :to="content" />
       </div>
     </div>
   </n-card>
