@@ -18,12 +18,12 @@ export class AggregationInfo extends DQMetrics {
 export class DQOverviewItem extends DQMetrics {
   id: number // row id
   name: string // name of a time series / device / database
-  dataSize: number // data size
+  dataSize: bigint // data size
 
   constructor(
     id: number,
     name: string,
-    dataSize: number,
+    dataSize: bigint,
     completeness: number,
     consistency: number,
     timeliness: number,
@@ -43,7 +43,7 @@ export class DQOverviewItem extends DQMetrics {
 export class DQOverviewItemBuilder {
   id: number = 0
   name: string = ''
-  dataSize: number = 0
+  dataSize: bigint = BigInt(0)
   completeness: number = 0
   consistency: number = 0
   timeliness: number = 0
@@ -59,7 +59,7 @@ export class DQOverviewItemBuilder {
     return this
   }
 
-  setDataSize(dataSize: number): this {
+  setDataSize(dataSize: bigint): this {
     this.dataSize = dataSize
     return this
   }

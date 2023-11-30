@@ -103,6 +103,7 @@ async function getTSData() {
       iotdbConfigStore.config.id,
       path.value,
     )
+    console.log(res)
     path.value = res.data.path
     data.value = res.data.points.map((item: TimeSeriesDataPointDto) => [
       item.timestamp,
