@@ -6,37 +6,35 @@
         :is-aggregation-info-loading="aggregationInfoLoading"
       />
 
-      <div v-if="tsDataLoading">
-        <n-skeleton v-for="n in tsDataPagination.pageSize" text size="small" />
-      </div>
+      <!--      <div v-if="tsDataLoading">-->
+      <!--        <n-skeleton v-for="n in tsDataPagination.pageSize" text size="small" />-->
+      <!--      </div>-->
 
-      <div v-else class="chart">
-        <!--      <TimeSeriesCount v-bind="tsData" />-->
-        <n-pagination
-          style="align-self: flex-end"
-          :page="tsDataPagination.page"
-          :page-count="tsDataPagination.pageCount"
-          @update:page="handleTSDataPageChange"
-        />
-      </div>
+      <!--      <div v-else class="chart">-->
+      <!--        <n-pagination-->
+      <!--          style="align-self: flex-end"-->
+      <!--          :page="tsDataPagination.page"-->
+      <!--          :page-count="tsDataPagination.pageCount"-->
+      <!--          @update:page="handleTSDataPageChange"-->
+      <!--        />-->
+      <!--      </div>-->
     </n-card>
 
-    <DQOverviewTable class="mt-6" />
+    <TimeSeriesLineChart class="mt-2" />
+
+    <DQOverviewTable class="mt-2" />
   </div>
 </template>
 
 <script setup lang="ts">
 import { onMounted, reactive, ref } from 'vue'
-import {
-  getIoTDBAggregationInfo,
-  getIoTDBConfigId,
-  getTSDataSize,
-} from '@/api/dashboard'
+import { getIoTDBAggregationInfo, getIoTDBConfigId } from '@/api/dashboard'
 import { useIoTDBConfigStore } from '@/stores/iotdbConfig'
 
 import DashboardHeader from './components/DashboardHeader.vue'
 import { AggregationInfo } from '@/models/dataQuality'
 import DQOverviewTable from './components/dq-overview-table/DQOverviewTable.vue'
+import TimeSeriesLineChart from '@/pages/dashboard/components/TimeSeriesLineChart.vue'
 
 let iotdbConfigStore = useIoTDBConfigStore()
 const getIcId = async () => {
@@ -78,25 +76,25 @@ const tsDataPagination = reactive({
   itemCount: 0,
 })
 
-const getTSData = async (pageIndex: number = tsDataPagination.page) => {
-  tsDataLoading.value = true
-  try {
-    const res = await getTSDataSize({
-      page_index: pageIndex,
-      page_size: tsDataPagination.pageSize,
-    })
-    tsDataLoading.value = false
-    tsDataPagination.page = res.data.page_index
-    tsDataPagination.itemCount = res.data.total
-    tsDataPagination.pageCount = res.data.page_count
-    tsData.value = {
-      names: res.data.info.map((x: any) => x.name),
-      dataSizes: res.data.info.map((x: any) => x.data_size),
-    }
-  } catch (err) {
-    console.log(err)
-  }
-}
+// const getTSData = async (pageIndex: number = tsDataPagination.page) => {
+//   tsDataLoading.value = true
+//   try {
+//     const res = await getTSDataSize({
+//       page_index: pageIndex,
+//       page_size: tsDataPagination.pageSize,
+//     })
+//     tsDataLoading.value = false
+//     tsDataPagination.page = res.data.page_index
+//     tsDataPagination.itemCount = res.data.total
+//     tsDataPagination.pageCount = res.data.page_count
+//     tsData.value = {
+//       names: res.data.info.map((x: any) => x.name),
+//       dataSizes: res.data.info.map((x: any) => x.data_size),
+//     }
+//   } catch (err) {
+//     console.log(err)
+//   }
+// }
 
 onMounted(async () => {
   if (iotdbConfigStore.config.id === -1) {
@@ -106,13 +104,13 @@ onMounted(async () => {
   // await getTSData()
 })
 
-function handleTSDataPageChange(currentPage: number) {
-  if (tsDataLoading.value) {
-    // still loading ts data, ignore page change event
-    return
-  }
-  getTSData(currentPage)
-}
+// function handleTSDataPageChange(currentPage: number) {
+//   if (tsDataLoading.value) {
+//     // still loading ts data, ignore page change event
+//     return
+//   }
+//   getTSData(currentPage)
+// }
 </script>
 
 <style scoped>

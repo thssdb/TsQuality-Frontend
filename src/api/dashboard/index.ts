@@ -1,5 +1,6 @@
 import { http } from '@/utils/axios'
 import { AggregationInfo } from '@/models/dataQuality'
+import { DQOverviewDto, TimeSeriesRecentDataDto } from '#/dto'
 
 export async function getIoTDBConfigId(ic: IoTDBConfig) {
   return http.request<number>({
@@ -21,16 +22,25 @@ export async function getTimeSeriesOverview(id: number) {
   })
 }
 
-export async function getTSDataSize(params?: object) {
-  return http.request({
-    url: '/1/ts-data-size',
-    params,
+export async function getLatestTimeSeriesPaths(
+  id: number,
+  path: string,
+  limit: number = 10,
+) {
+  return http.request<Array<string>>({
+    url: `/iotdb/${id}/time-series/latest`,
+    params: {
+      path,
+      limit,
+    },
   })
 }
 
-export async function getTaskList(params?: object) {
-  return http.request({
-    url: '/1/tasks',
-    params,
+export async function getTimeSeriesRecentData(id: number, path: string = '') {
+  return http.request<TimeSeriesRecentDataDto>({
+    url: `/iotdb/${id}/time-series/data`,
+    params: {
+      path,
+    },
   })
 }

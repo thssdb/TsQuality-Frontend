@@ -37,20 +37,6 @@ export const DashboardRoute: RouteRecordRaw = {
   ],
 }
 
-export const HistoryRoute: RouteRecordRaw = {
-  path: '/history',
-  name: RouteEnum.HISTORY,
-  redirect: '/history/index',
-  component: Layout,
-  children: [
-    {
-      path: 'index',
-      name: RouteEnum.HISTORY,
-      component: () => import('../pages/history/history.vue'),
-    },
-  ],
-}
-
 export const AnalyzeRoute: RouteRecordRaw = {
   path: '/analyze',
   name: RouteEnum.ANALYZE,
@@ -103,7 +89,6 @@ export const constantRouter: RouteRecordRaw[] = [
   RootRoute,
   RedirectRoute,
   DashboardRoute,
-  HistoryRoute,
   AnalyzeRoute,
   UserRoute,
   SettingsRoute,

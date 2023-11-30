@@ -12,8 +12,10 @@ export default {
   'dashboard.total_count.analysis.title': 'Analysis Count',
   'dashboard.total_count.analysis.tag': 'Analysis',
 
-  'dashboard.bar_chart.title': 'Time Series Data Sizes',
-  'dashboard.bar_chart.tooltip': 'data size',
+  'dashboard.latest_data.title': 'Latest Time Series Data',
+  'dashboard.latest_data.path.placeholder': 'Time Series Path',
+  'dashboard.line_chart.title': 'Time Series',
+  'dashboard.line_chart.tooltip': 'value',
 
   'dashboard.overview_table.title': 'Data Quality Overview',
   'dashboard.overview_table.columns.no.title': 'No',

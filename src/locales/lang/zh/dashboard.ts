@@ -12,8 +12,10 @@ export default {
   'dashboard.total_count.analysis.title': '分析总数',
   'dashboard.total_count.analysis.tag': '分析',
 
-  'dashboard.bar_chart.title': '各时间序列数据量',
-  'dashboard.bar_chart.tooltip': '数据量',
+  'dashboard.latest_data.title': '最新时间序列数据',
+  'dashboard.latest_data.path.placeholder': '时间序列路径',
+  'dashboard.line_chart.title': '时间序列',
+  'dashboard.line_chart.tooltip': '值',
 
   'dashboard.overview_table.title': '数据质量概览',
   'dashboard.overview_table.columns.no.title': '序号',
