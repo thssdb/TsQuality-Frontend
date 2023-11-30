@@ -5,12 +5,12 @@
       show-trigger="bar"
       position="static"
       collapse-mode="width"
-      @collapse="collapsed = true"
-      @expand="collapsed = false"
       :width="200"
       :collapsed="collapsed"
       :collapsed-width="64"
       :native-scrollbar="false"
+      @collapse="collapsed = true"
+      @expand="collapsed = false"
     >
       <Logo :collapsed="collapsed" />
       <ASideMenu v-model:collapsed="collapsed" />
@@ -34,10 +34,10 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue'
-import { Logo } from './components/Logo'
-import { ASideMenu } from './components/Menu'
-import { PageHeader } from './components/Header'
-import { MainView } from './components/Main'
+import { Logo } from './components/app-logo'
+import { ASideMenu } from './components/side-menu'
+import { PageHeader } from './components/page-header'
+import { MainView } from './components/page-content'
 
 const collapsed = ref<boolean>(false)
 </script>

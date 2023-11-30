@@ -6,21 +6,20 @@
     :collapsed="collapsed"
     :collapsed-width="64"
     :collapsed-icon-size="20"
-    :value="seletedKeys"
+    :value="selectedKeys"
     @update:value="clickMenuItem"
   />
 </template>
 
 <script lang="ts" setup>
 import { MenuOption, NIcon } from 'naive-ui'
-import { Component, h, onMounted, reactive, ref, watch } from 'vue'
+import { Component, h, onMounted, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import {
   DashboardOutlined,
-  BranchesOutlined,
   PieChartOutlined,
-  UserOutlined,
   SettingOutlined,
+  UserOutlined,
 } from '@vicons/antd'
 import { RouteEnum } from '@/enums/routeEnum'
 import { useI18n } from 'vue-i18n'
@@ -50,22 +49,14 @@ const emit = defineEmits<{
 
 const route = useRoute()
 const router = useRouter()
-const seletedKeys = ref<string>(route.name as string)
+const selectedKeys = ref<string>(route.name as string)
 
-const matched = route.matched
-const matchedKeys =
-  matched && matched.length ? matched.map((item) => item.name) : []
 const i18n = useI18n()
 const menus = ref<MenuOption[]>([
   {
     key: RouteEnum.DASHBOARD,
     label: i18n.t('menu.dashboard'),
     icon: renderIcon(DashboardOutlined),
-  },
-  {
-    key: RouteEnum.HISTORY,
-    label: i18n.t('menu.history'),
-    icon: renderIcon(BranchesOutlined),
   },
   {
     key: RouteEnum.ANALYZE,
@@ -95,7 +86,7 @@ const menus = ref<MenuOption[]>([
 ])
 
 function clickMenuItem(key: string) {
-  seletedKeys.value = key
+  selectedKeys.value = key
   router.push({ name: key })
   emit('clickMenuItem', key)
 }
@@ -104,11 +95,11 @@ watch(
   () => route.fullPath,
   () => {
     updateMenu()
-  }
+  },
 )
 
 function updateMenu() {
-  seletedKeys.value = route.name as string
+  selectedKeys.value = route.name as string
 }
 
 onMounted(() => {

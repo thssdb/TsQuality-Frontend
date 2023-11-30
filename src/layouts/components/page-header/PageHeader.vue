@@ -4,10 +4,10 @@
     <div class="layout-header-left">
       <!-- collapse menu -->
       <div class="mt-2" @click="() => $emit('update:collapsed', !collapsed)">
-        <n-icon size="18" v-if="collapsed">
+        <n-icon v-if="collapsed" size="18">
           <MenuUnfoldOutlined />
         </n-icon>
-        <n-icon size="18" v-else>
+        <n-icon v-else size="18">
           <MenuFoldOutlined />
         </n-icon>
       </div>
@@ -23,8 +23,8 @@
       <div class="layout-header-right-language">
         <n-dropdown
           trigger="hover"
-          @select="languageSelect"
           :options="languageSelectOptions"
+          @select="languageSelect"
         >
           <div class="avatar">
             <n-icon size="24">
@@ -36,15 +36,14 @@
       <div class="layout-header-right-avatar">
         <n-dropdown
           trigger="hover"
-          @select="avatarSelect"
           :options="avatarOptions"
+          @select="avatarSelect"
         >
           <div class="avatar">
             <n-avatar round>
-              {{ username }}
-              <template #icon>
+              <n-icon>
                 <UserOutlined />
-              </template>
+              </n-icon>
             </n-avatar>
           </div>
         </n-dropdown>
@@ -63,9 +62,9 @@ import {
 } from '@vicons/antd'
 import { LanguageOutline } from '@vicons/ionicons5'
 import { useDialog } from 'naive-ui'
-import { ref, unref } from 'vue'
-import { useI18n } from 'vue-i18n'
+import { unref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
+import i18n from '@/locales'
 
 defineProps({
   collapsed: {
@@ -74,22 +73,24 @@ defineProps({
   },
 })
 
-const i18n = useI18n()
+defineEmits({
+  'update:collapsed': () => true,
+})
+
+const { t, locale } = i18n.global
 
 const route = useRoute()
 const router = useRouter()
 const dialog = useDialog()
 
-const username = ref<string>('admin')
-
 const avatarOptions = [
   {
     key: 1,
-    label: i18n.t('global.avatar.settings'),
+    label: t('global.avatar.settings'),
   },
   {
     key: 2,
-    label: i18n.t('global.avatar.logout'),
+    label: t('global.avatar.logout'),
   },
 ]
 
@@ -106,13 +107,13 @@ const languageSelectOptions = [
 
 const logout = () => {
   dialog.info({
-    title: i18n.t('global.logout.title'),
-    content: i18n.t('global.logout.content'),
-    positiveText: i18n.t('global.logout.confirm'),
+    title: t('global.logout.title'),
+    content: t('global.logout.content'),
+    positiveText: t('global.logout.confirm'),
   })
 }
 
-const avatarSelect = (key: Number) => {
+const avatarSelect = (key: number) => {
   switch (key) {
     case 1:
       router.push({ name: PageEnum.SETTINGS })
@@ -123,13 +124,13 @@ const avatarSelect = (key: Number) => {
   }
 }
 
-const languageSelect = (key: Number) => {
+const languageSelect = (key: number) => {
   switch (key) {
     case 1:
-      i18n.locale.value = 'en'
+      locale.value = 'en'
       break
     case 2:
-      i18n.locale.value = 'zh'
+      locale.value = 'zh'
       break
   }
 }
