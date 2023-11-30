@@ -79,7 +79,7 @@ const chartOption = reactive<EChartsOption>({
   },
 })
 
-const tsPath = ref(null)
+const tsPath = ref('')
 const tsPaths = ref<string[]>([])
 const autoCompleteOptions = computed(() => {
   return tsPaths.value.map((item) => ({
@@ -107,6 +107,7 @@ async function getTSData() {
     )
     console.log(res)
     path.value = res.data.path
+    tsPath.value = res.data.path
     data.value = res.data.points.map((item: TimeSeriesDataPointDto) => [
       item.timestamp,
       item.value,
