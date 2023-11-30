@@ -35,6 +35,8 @@ import { TimeSeriesDataPointDto } from '#/dto'
 
 setupECharts()
 
+const iotdbConfigStore = useIoTDBConfigStore()
+
 const width = '100%'
 const height = '50vh'
 const { t } = useI18n()
@@ -113,8 +115,14 @@ async function getTSData() {
     console.log(err)
   }
 }
+iotdbConfigStore.$subscribe((_, state) => {
+  console.log('CHANGED!!!', state.config)
+  if (state.config.id === -1) {
+    return
+  }
+  getTSData()
+})
 
-const iotdbConfigStore = useIoTDBConfigStore()
 onMounted(async () => {
   await getTSData()
 })
