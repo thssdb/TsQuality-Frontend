@@ -1,7 +1,7 @@
-import { DQOverviewItem } from '@/models/dataQuality'
 import { DataTableColumns, NButton } from 'naive-ui'
 import i18n from '@/locales'
 import { h } from 'vue'
+import { DQOverviewItem } from '@/models/dqOverviewItem'
 
 const { t } = i18n.global
 

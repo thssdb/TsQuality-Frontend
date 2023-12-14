@@ -13,11 +13,11 @@
 <script setup lang="ts">
 import { createColumns } from './table'
 import { SelectOption, useMessage } from 'naive-ui'
-import { DQOverviewItem, DQOverviewItemBuilder } from '@/models/dataQuality'
 import { getDataQualityOverview } from '@/api/dashboard'
 import { useIoTDBConfigStore } from '@/stores/iotdbConfig'
 import { onMounted, ref } from 'vue'
 import { DQOverviewDto } from '#/dto'
+import { DQOverviewItem, DQOverviewItemBuilder } from '@/models/dqOverviewItem'
 
 defineProps({
   rows: {
@@ -45,6 +45,10 @@ const columns = createColumns({
 })
 const data = ref<DQOverviewItem[]>([])
 
+function rounded(n: number): number {
+  return Math.round(n * 1000) / 1000
+}
+
 async function getOverview(type: string = 'time-series') {
   try {
     const res = await getDataQualityOverview(iotdbConfigStore.config.id, type)
@@ -53,10 +57,10 @@ async function getOverview(type: string = 'time-series') {
         .setId(index + 1)
         .setDataSize(x.cnt)
         .setName(x.path)
-        .setCompleteness(x.completeness)
-        .setConsistency(x.consistency)
-        .setTimeliness(x.timeliness)
-        .setValidity(x.validity)
+        .setCompleteness(rounded(x.completeness))
+        .setConsistency(rounded(x.consistency))
+        .setTimeliness(rounded(x.timeliness))
+        .setValidity(rounded(x.validity))
         .build()
     })
   } catch (err) {

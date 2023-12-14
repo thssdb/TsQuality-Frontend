@@ -39,11 +39,16 @@ export async function getLatestTimeSeriesPaths(
   })
 }
 
-export async function getTimeSeriesRecentData(id: number, path: string = '') {
+export async function getTimeSeriesRecentData(
+  id: number,
+  path: string = '',
+  limit: number = 100,
+) {
   return http.request<TimeSeriesRecentDataDto>({
     url: `/iotdb/${id}/time-series/data`,
     params: {
       path,
+      limit,
     },
   })
 }

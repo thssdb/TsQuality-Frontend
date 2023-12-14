@@ -1,6 +1,7 @@
 import { use } from 'echarts/core'
-import { BarChart, LineChart } from 'echarts/charts'
+import { BarChart, LineChart, PieChart } from 'echarts/charts'
 import {
+  DatasetComponent,
   DataZoomComponent,
   GridComponent,
   LegendComponent,
@@ -17,9 +18,11 @@ export function setupECharts() {
   use([
     BarChart,
     LineChart,
+    PieChart,
 
     SVGRenderer,
 
+    DatasetComponent,
     DataZoomComponent,
     GridComponent,
     LegendComponent,

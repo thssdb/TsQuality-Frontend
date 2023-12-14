@@ -38,7 +38,7 @@ setupECharts()
 const iotdbConfigStore = useIoTDBConfigStore()
 
 const width = '100%'
-const height = '50vh'
+const height = '20vh'
 const { t } = useI18n()
 const path = ref<string>('')
 const data = ref<Array<[bigint, number]>>([])
@@ -79,6 +79,7 @@ const chartOption = reactive<EChartsOption>({
   },
 })
 
+const numPoints = 100 // display the latest 1000 data points
 const tsPath = ref('')
 const tsPaths = ref<string[]>([])
 const autoCompleteOptions = computed(() => {
@@ -91,6 +92,7 @@ async function tsPathUpdated(value: string | null) {
   if (value === null || !value.startsWith('root')) {
     return
   }
+  // TODO: do not update if value doesn't change
   const res = await getLatestTimeSeriesPaths(iotdbConfigStore.config.id, value)
   tsPaths.value = res.data
 }
@@ -104,8 +106,8 @@ async function getTSData() {
     const res = await getTimeSeriesRecentData(
       iotdbConfigStore.config.id,
       path.value,
+      numPoints,
     )
-    console.log(res)
     path.value = res.data.path
     tsPath.value = res.data.path
     data.value = res.data.points.map((item: TimeSeriesDataPointDto) => [
@@ -117,7 +119,6 @@ async function getTSData() {
   }
 }
 iotdbConfigStore.$subscribe((_, state) => {
-  console.log('CHANGED!!!', state.config)
   if (state.config.id === -1) {
     return
   }

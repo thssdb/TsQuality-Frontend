@@ -22,3 +22,12 @@ export interface TimeSeriesRecentDataDto {
   path: string
   points: Array<TimeSeriesDataPointDto>
 }
+
+export interface DQAggregationDetailItemDto {
+  time: string
+  dataSize: bigint
+  completeness: number
+  consistency: number
+  timeliness: number
+  validity: number
+}
