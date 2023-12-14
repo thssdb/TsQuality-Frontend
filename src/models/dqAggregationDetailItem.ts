@@ -3,9 +3,11 @@ import { DQMetrics } from './dataQuality'
 // DQDetailItem represents one bar in the data quality bar chart,
 // which is the data quality aggregated result of the time dimension
 export class DQAggregationDetailItem extends DQMetrics {
+  time: string
   dataSize: bigint
 
   constructor(
+    time: string,
     dataSize: bigint,
     completeness: number,
     consistency: number,
@@ -13,16 +15,23 @@ export class DQAggregationDetailItem extends DQMetrics {
     validity: number,
   ) {
     super(completeness, consistency, timeliness, validity)
+    this.time = time
     this.dataSize = dataSize
   }
 }
 
 export class DQAggregationDetailItemBuilder {
+  time: string = ''
   dataSize: bigint = BigInt(0)
   completeness: number = 0
   consistency: number = 0
   timeliness: number = 0
   validity: number = 0
+
+  setTime(time: string): this {
+    this.time = time
+    return this
+  }
 
   setDataSize(dataSize: bigint): this {
     this.dataSize = dataSize
@@ -51,6 +60,7 @@ export class DQAggregationDetailItemBuilder {
 
   build(): DQAggregationDetailItem {
     return new DQAggregationDetailItem(
+      this.time,
       this.dataSize,
       this.completeness,
       this.consistency,

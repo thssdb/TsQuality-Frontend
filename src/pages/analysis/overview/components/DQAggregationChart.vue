@@ -37,7 +37,7 @@ const props = defineProps({
 })
 
 const emit = defineEmits<{
-  change: [type: DQDistribution]
+  change: [type: DQDistribution, DQAggregationDetailItem[]]
 }>()
 
 setupECharts()
@@ -138,6 +138,7 @@ async function getDQAggregationData() {
     dataQualityYAxisData.value = res.data.map(
       (item: DQAggregationDetailItemDto) =>
         new DQAggregationDetailItemBuilder()
+          .setTime(item.time)
           .setDataSize(item.dataSize)
           .setCompleteness(+item.completeness.toFixed(valueDigits))
           .setConsistency(+item.consistency.toFixed(valueDigits))
@@ -168,6 +169,6 @@ function dqYAxisDataToDQDistribution(): DQDistribution {
 onMounted(async () => {
   await getDQAggregationData()
   const dqDistribution = dqYAxisDataToDQDistribution()
-  emit('change', dqDistribution)
+  emit('change', dqDistribution, dataQualityYAxisData.value)
 })
 </script>

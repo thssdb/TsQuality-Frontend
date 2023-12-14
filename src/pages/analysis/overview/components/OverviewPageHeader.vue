@@ -41,12 +41,16 @@
 import DQAggregationChart from './DQAggregationChart.vue'
 import { DQAggregationType } from '@/models/dqAggregationType'
 import { DQDistribution } from '@/models/dqDistribution'
+import { DQAggregationDetailItem } from '@/models/dqAggregationDetailItem'
 
 const emits = defineEmits<{
-  change: [type: DQDistribution]
+  change: [type: DQDistribution, DQAggregationDetailItem[]]
 }>()
 
-function handleChangeEvent(data: DQDistribution) {
-  emits('change', data)
+function handleChangeEvent(
+  dqDistribution: DQDistribution,
+  dqDetail: DQAggregationDetailItem[],
+) {
+  emits('change', dqDistribution, dqDetail)
 }
 </script>

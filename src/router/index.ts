@@ -46,8 +46,8 @@ export const AnalyzeRoute: RouteRecordRaw = {
     {
       path: 'overview',
       name: RouteEnum.ANALYZE_OVERVIEW,
-      // component: () => import('../pages/analysis/overview/overview.vue'),
-      component: () => import('../pages/analysis/overview/overview.vue'),
+      // component: () => import('../pages/analysis/overview/OverviewPage.vue'),
+      component: () => import('../pages/analysis/overview/OverviewPage.vue'),
     },
     {
       path: 'detail',
