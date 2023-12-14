@@ -14,31 +14,30 @@
 <script setup lang="ts">
 import VChart from 'vue-echarts'
 import { setupECharts } from '@/utils/lib/echarts'
-import { computed, onMounted, PropType, reactive, ref } from 'vue'
+import { computed, onMounted, PropType, reactive } from 'vue'
 import { EChartsOption } from 'echarts'
 import { useI18n } from 'vue-i18n'
-import { getDQAggregationDetail } from '@/api/analysis/overview'
-import { DQAggregationDetailItemDto } from '#/dto'
-import {
-  DQAggregationDetailItem,
-  DQAggregationDetailItemBuilder,
-} from '@/models/dqAggregationDetailItem'
+import { DQAggregationDetailItem } from '@/models/dqAggregationDetailItem'
 import { DQAggregationType } from '@/models/dqAggregationType'
-import { DQDistribution, DQDistributionItem } from '@/models/dqDistribution'
-import { MetricEnum } from '@/enums/metricEnum'
 
 const props = defineProps({
   type: {
-    type: String as PropType<
-      DQAggregationType.DAY | DQAggregationType.MONTH | DQAggregationType.YEAR
-    >,
+    type: String as PropType<DQAggregationType>,
+    required: true,
+  },
+  data: {
+    type: Object as PropType<DQAggregationDetailItem[]>,
     required: true,
   },
 })
 
-const emit = defineEmits<{
-  change: [type: DQDistribution, DQAggregationDetailItem[]]
+const emits = defineEmits<{
+  load: [type: DQAggregationType]
 }>()
+
+onMounted(() => {
+  emits('load', props.type)
+})
 
 setupECharts()
 
@@ -47,8 +46,12 @@ const { t } = useI18n()
 const width = '100%'
 const height = '30vh'
 
-const dataSizeXAxisData = ref<string[]>([])
-const dataSizeYAxisData = ref<bigint[]>([])
+const dataSizeXAxisData = computed(() => {
+  return props.data?.map((item) => item.time) ?? []
+})
+const dataSizeYAxisData = computed(() => {
+  return props.data?.map((item) => item.dataSize) ?? []
+})
 const dataSizeBarChartOption = reactive<EChartsOption>({
   title: {
     left: 'center',
@@ -72,8 +75,21 @@ const dataSizeBarChartOption = reactive<EChartsOption>({
   },
 })
 
-const dataQualityXAxisData = ref<string[]>([])
-const dataQualityYAxisData = ref<DQAggregationDetailItem[]>([])
+const dataQualityXAxisData = computed(() => {
+  return props.data?.map((item) => item.time) ?? []
+})
+const dataQualityYAxisData = computed(() => {
+  return (
+    props.data?.map((item) => {
+      return {
+        completeness: item.completeness,
+        consistency: item.consistency,
+        timeliness: item.timeliness,
+        validity: item.validity,
+      }
+    }) ?? []
+  )
+})
 const completenessData = computed(() => {
   return dataQualityYAxisData.value.map((item) => item.completeness)
 })
@@ -120,55 +136,5 @@ const dataQualityBarChartOption = reactive<EChartsOption>({
   tooltip: {
     show: true,
   },
-})
-
-const valueDigits = 3
-async function getDQAggregationData() {
-  try {
-    const res = await getDQAggregationDetail(props.type)
-    dataSizeXAxisData.value = res.data.map(
-      (item: DQAggregationDetailItemDto) => item.time,
-    )
-    dataSizeYAxisData.value = res.data.map(
-      (item: DQAggregationDetailItemDto) => item.dataSize,
-    )
-    dataQualityXAxisData.value = res.data.map(
-      (item: DQAggregationDetailItemDto) => item.time,
-    )
-    dataQualityYAxisData.value = res.data.map(
-      (item: DQAggregationDetailItemDto) =>
-        new DQAggregationDetailItemBuilder()
-          .setTime(item.time)
-          .setDataSize(item.dataSize)
-          .setCompleteness(+item.completeness.toFixed(valueDigits))
-          .setConsistency(+item.consistency.toFixed(valueDigits))
-          .setTimeliness(+item.timeliness.toFixed(valueDigits))
-          .setValidity(+item.validity.toFixed(valueDigits))
-          .build(),
-    )
-  } catch (err) {
-    console.log(err)
-  }
-}
-
-function dqYAxisDataToDQDistribution(): DQDistribution {
-  const items = new Map<MetricEnum, DQDistributionItem>()
-  items.set(
-    MetricEnum.COMPLETENESS,
-    new DQDistributionItem(completenessData.value),
-  )
-  items.set(
-    MetricEnum.CONSISTENCY,
-    new DQDistributionItem(consistencyData.value),
-  )
-  items.set(MetricEnum.TIMELINESS, new DQDistributionItem(timelinessData.value))
-  items.set(MetricEnum.VALIDITY, new DQDistributionItem(validityData.value))
-  return new DQDistribution(items)
-}
-
-onMounted(async () => {
-  await getDQAggregationData()
-  const dqDistribution = dqYAxisDataToDQDistribution()
-  emit('change', dqDistribution, dataQualityYAxisData.value)
 })
 </script>
