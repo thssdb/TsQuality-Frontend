@@ -1,8 +1,8 @@
 import { http } from '@/utils/axios'
-import { DQAggregationDetailItemDto } from '#/dto'
+import { DQAggregationDetailDto } from '#/dto'
 
 export async function getDQAggregationDetail(type: string) {
-  return http.request<DQAggregationDetailItemDto[]>({
+  return http.request<DQAggregationDetailDto>({
     url: '/time-series/data-quality/aggregation',
     method: 'GET',
     params: {

@@ -32,8 +32,8 @@ const dqDistribution = ref<DQDistribution>(DQDistribution.default())
 const dqDetail = ref<DQAggregationDetailItem[]>([])
 
 function handleDQDataChangeEvent(
-  distribution: DQDistribution,
   detail: DQAggregationDetailItem[],
+  distribution: DQDistribution,
 ) {
   dqDistribution.value = distribution
   dqDetail.value = detail

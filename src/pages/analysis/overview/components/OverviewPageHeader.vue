@@ -59,7 +59,7 @@ type TabData = {
 }
 
 const emits = defineEmits<{
-  change: [type: DQDistribution, DQAggregationDetailItem[]]
+  change: [type: DQAggregationDetailItem[], DQDistribution]
 }>()
 
 const initData = () => {
@@ -85,10 +85,11 @@ function handleTabChange(name: string) {
 }
 
 function emitChangeEvent(name: DQAggregationType) {
+  console.log(data.value.get(name)?.distribution ?? DQDistribution.default())
   emits(
     'change',
-    data.value.get(name)?.distribution ?? DQDistribution.default(),
     data.value.get(name)?.detail ?? [],
+    data.value.get(name)?.distribution ?? DQDistribution.default(),
   )
 }
 
@@ -96,7 +97,7 @@ const valueDigits = 3
 async function getDQAggregationData(type: DQAggregationType) {
   try {
     const res = await getDQAggregationDetail(type)
-    const detail = res.data.map((item: DQAggregationDetailItemDto) =>
+    const detail = res.data.items.map((item: DQAggregationDetailItemDto) =>
       new DQAggregationDetailItemBuilder()
         .setTime(item.time)
         .setDataSize(item.dataSize)

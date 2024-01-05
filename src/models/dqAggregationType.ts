@@ -1,5 +1,5 @@
 export enum DQAggregationType {
-  DAY = 'day',
-  MONTH = 'month',
-  YEAR = 'year',
+  DAY = 'DAY',
+  MONTH = 'MONTH',
+  YEAR = 'YEAR',
 }

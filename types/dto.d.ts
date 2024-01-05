@@ -23,6 +23,10 @@ export interface TimeSeriesRecentDataDto {
   points: Array<TimeSeriesDataPointDto>
 }
 
+export interface DQAggregationDetailDto {
+  items: DQAggregationDetailItemDto[]
+}
+
 export interface DQAggregationDetailItemDto {
   time: string
   dataSize: bigint
