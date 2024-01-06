@@ -52,7 +52,8 @@ export const AnalyzeRoute: RouteRecordRaw = {
     {
       path: 'detail',
       name: RouteEnum.ANALYZE_DETAIL,
-      component: () => import('../pages/analysis/detail/detail.vue'),
+      component: () =>
+        import('../pages/analysis/detail/AnalysisDetailPage.vue'),
     },
   ],
 }

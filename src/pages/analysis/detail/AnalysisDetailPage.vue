@@ -6,8 +6,29 @@
           <download-outlined />
         </n-icon>
       </template>
-      <v-chart autoresize :option="barChartOption" :style="{ width, height }" />
+      <v-chart
+        autoresize
+        :option="barChartOption"
+        :style="{
+          width: Constants.ChartWidth,
+          height: Constants.ChartHeight,
+        }"
+      />
     </n-card>
+
+    <n-grid
+      class="mb-6"
+      cols="s:1 m:2"
+      responsive="screen"
+      :x-gap="Constants.TableXGap"
+    >
+      <n-grid-item :span="1">
+        <TimestampAnomaliesTable />
+      </n-grid-item>
+      <n-grid-item :span="1">
+        <ValueAnomaliesTable />
+      </n-grid-item>
+    </n-grid>
 
     <n-card :title="$t('analysis.detail.line_chart.title')">
       <template #header-extra>
@@ -18,7 +39,19 @@
       <v-chart
         autoresize
         :option="lineChartOption"
-        :style="{ width, height }"
+        :style="{ width: Constants.ChartWidth, height: Constants.ChartHeight }"
+      />
+    </n-card>
+    <n-card :title="$t('analysis.detail.line_chart.title')">
+      <template #header-extra>
+        <n-icon size="36">
+          <download-outlined />
+        </n-icon>
+      </template>
+      <v-chart
+        autoresize
+        :option="lineChartOption"
+        :style="{ width: Constants.ChartWidth, height: Constants.ChartHeight }"
       />
     </n-card>
   </div>
@@ -26,33 +59,23 @@
 
 <script setup lang="ts">
 import { DownloadOutlined } from '@vicons/antd'
-import { BarChart, LineChart } from 'echarts/charts'
-import {
-  GridComponent,
-  LegendComponent,
-  TitleComponent,
-  TooltipComponent,
-} from 'echarts/components'
-import { use } from 'echarts/core'
-import { SVGRenderer } from 'echarts/renderers'
 import { ref } from 'vue'
 import VChart from 'vue-echarts'
 import { useI18n } from 'vue-i18n'
+import TimestampAnomaliesTable from '@/pages/analysis/detail/components/TimestampAnomaliesTable.vue'
+import ValueAnomaliesTable from '@/pages/analysis/detail/components/ValueAnomaliesTable.vue'
+import { EChartsOption } from 'echarts'
+import { setupECharts } from '@/utils/lib/echarts'
 
-use([
-  BarChart,
-  LineChart,
-  SVGRenderer,
-  TitleComponent,
-  GridComponent,
-  TooltipComponent,
-  LegendComponent,
-])
+setupECharts()
 
-const i18n = useI18n()
+const { t } = useI18n()
 
-const height = '300px'
-const width = '100%'
+enum Constants {
+  ChartWidth = '100%',
+  ChartHeight = '300px',
+  TableXGap = 12,
+}
 
 const barChartOption = ref({
   title: {
@@ -72,7 +95,7 @@ const barChartOption = ref({
     ],
   },
   yAxis: {
-    name: i18n.t('analysis.detail.bar_chart.yaxis.name'),
+    name: t('analysis.detail.bar_chart.yaxis.name'),
   },
   series: [
     {
@@ -85,7 +108,7 @@ const barChartOption = ref({
   },
 })
 
-const lineChartOption = ref<any>({
+const lineChartOption = ref<EChartsOption>({
   title: {
     left: 'center',
   },
@@ -103,7 +126,7 @@ const lineChartOption = ref<any>({
     ],
   },
   yAxis: {
-    name: i18n.t('analysis.detail.line_chart.yaxis.name'),
+    name: t('analysis.detail.line_chart.yaxis.name'),
   },
   series: [
     {
