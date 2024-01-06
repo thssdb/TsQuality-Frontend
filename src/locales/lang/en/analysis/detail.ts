@@ -1,18 +1,19 @@
 export default {
-  'analysis.detail.timestamp_anomaly.title': 'Timestamp Anomalies',
+  'analysis.detail.data_distribution.chart.title': 'Data Distribution',
+  'analysis.detail.data_distribution.chart.yaxis.name': 'Count',
+
+  'analysis.detail.timestamp_anomaly.table.title': 'Timestamp Anomalies',
   'analysis.detail.timestamp_anomaly.table.columns.original':
     'Original Timestamp',
   'analysis.detail.timestamp_anomaly.table.columns.repaired':
     'Repaired Timestamp',
+  'analysis.detail.timestamp_anomaly.chart.title': 'Timestamp Anomalies Fixes',
+  'analysis.detail.timestamp_anomaly.chart.yaxis.name': 'Value',
 
-  'analysis.detail.value_anomaly.title': 'Value Anomalies',
+  'analysis.detail.value_anomaly.table.title': 'Value Anomalies',
   'analysis.detail.value_anomaly.table.columns.timestamp': 'Timestamp',
   'analysis.detail.value_anomaly.table.columns.original': 'Original Value',
   'analysis.detail.value_anomaly.table.columns.repaired': 'Repaired Value',
-
-  'analysis.detail.bar_chart.title': 'Data Distribution',
-  'analysis.detail.bar_chart.yaxis.name': 'Data Count',
-
-  'analysis.detail.line_chart.title': 'Anomaly Fix',
-  'analysis.detail.line_chart.yaxis.name': 'Data Value',
+  'analysis.detail.value_anomaly.chart.title': 'Value Anomalies Fixes',
+  'analysis.detail.value_anomaly.chart.yaxis.name': 'Value',
 }

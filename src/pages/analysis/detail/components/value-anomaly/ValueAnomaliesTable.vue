@@ -1,5 +1,5 @@
 <template>
-  <n-card class="mt-4" :title="$t('analysis.detail.value_anomaly.title')">
+  <n-card :title="$t('analysis.detail.value_anomaly.table.title')">
     <n-data-table striped :bordered="false" :columns="columns" :data="data" />
   </n-card>
 </template>
