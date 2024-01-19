@@ -1,11 +1,32 @@
 <template>
   <n-card :title="$t('analysis.detail.timestamp_anomaly.table.title')">
+    <template #header-extra>
+      <n-input-number
+        v-model:value="interval"
+        clearable
+        :placeholder="
+          $t(
+            'analysis.detail.timestamp_anomaly.table.time_interval.placeholder',
+          )
+        "
+        :validator="intervalValidator"
+      />
+      <n-select
+        v-model:value="method"
+        class="w-36 ml-4"
+        :options="options"
+        @update:value="handleMethodValueUpdated"
+      >
+      </n-select>
+    </template>
     <n-data-table striped :bordered="false" :columns="columns" :data="data" />
   </n-card>
 </template>
 
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n'
+import { ref } from 'vue'
+import { SelectOption } from 'naive-ui'
 
 type Row = {
   no: number
@@ -14,6 +35,21 @@ type Row = {
 }
 
 const { t } = useI18n()
+
+const interval = ref<number>()
+function intervalValidator(x: number): boolean {
+  return Number.isInteger(x) && x > 0
+}
+
+const method = ref<string>('median')
+const options = ref<SelectOption[]>([
+  { label: 'Median', value: 'median' },
+  { label: 'Mode', value: 'mode' },
+  { label: 'Cluster', value: 'cluster' },
+])
+function handleMethodValueUpdated(value: string) {
+  console.log(value)
+}
 
 const columns = [
   {

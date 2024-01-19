@@ -1,11 +1,25 @@
 <template>
   <n-card :title="$t('analysis.detail.value_anomaly.table.title')">
+    <template #header-extra>
+      <n-input
+        v-model:value="args"
+        class="w-64"
+        autosize
+        style="min-width: 60%"
+        :placeholder="
+          $t('analysis.detail.value_anomaly.table.args.placeholder')
+        "
+      />
+      <n-select v-model:value="method" class="w-36 ml-4" :options="options" />
+    </template>
     <n-data-table striped :bordered="false" :columns="columns" :data="data" />
   </n-card>
 </template>
 
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n'
+import { ref } from 'vue'
+import { SelectOption } from 'naive-ui'
 
 type Row = {
   no: number
@@ -15,6 +29,18 @@ type Row = {
 }
 
 const { t } = useI18n()
+
+const args = ref<string>('')
+
+const method = ref<string>('IQR')
+const options = ref<SelectOption[]>([
+  { label: 'IQR', value: 'IQR' },
+  { label: 'KSigma', value: 'KSigma' },
+  { label: 'LOF', value: 'LOF' },
+  { label: 'Range', value: 'Range' },
+  { label: 'TwoSidedFilter', value: 'TwoSidedFilter' },
+  { label: 'Outlier', value: 'Outlier' },
+])
 
 const columns = [
   {
