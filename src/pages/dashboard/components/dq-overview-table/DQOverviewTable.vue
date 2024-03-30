@@ -51,7 +51,7 @@ function rounded(n: number): number {
 
 async function getOverview(type: string = 'time-series') {
   try {
-    const res = await getDataQualityOverview(iotdbConfigStore.config.id, type)
+    const res = await getDataQualityOverview(type)
     data.value = res.data.map((x: DQOverviewDto, index: number) => {
       return new DQOverviewItemBuilder()
         .setId(index + 1)

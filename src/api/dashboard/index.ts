@@ -10,28 +10,24 @@ export async function getIoTDBConfigId(ic: IoTDBConfig) {
   })
 }
 
-export async function getIoTDBAggregationInfo(id: number) {
+export async function getIoTDBAggregationInfo() {
   return http.request<AggregationInfo>({
-    url: `/iotdb/${id}/aggregation-info`,
+    url: `/iotdb/overall-data-profile`,
   })
 }
 
-export async function getDataQualityOverview(
-  id: number,
-  type: string = 'time-series',
-) {
+export async function getDataQualityOverview(type: string = 'time-series') {
   return http.request<Array<DQOverviewDto>>({
-    url: `/iotdb/${id}/${type}/overview`,
+    url: `/iotdb/${type}/overview`,
   })
 }
 
 export async function getLatestTimeSeriesPaths(
-  id: number,
   path: string,
   limit: number = 10,
 ) {
   return http.request<Array<string>>({
-    url: `/iotdb/${id}/time-series/latest`,
+    url: `/iotdb/time-series/latest`,
     params: {
       path,
       limit,
@@ -40,12 +36,11 @@ export async function getLatestTimeSeriesPaths(
 }
 
 export async function getTimeSeriesRecentData(
-  id: number,
   path: string = '',
   limit: number = 100,
 ) {
   return http.request<TimeSeriesRecentDataDto>({
-    url: `/iotdb/${id}/time-series/data`,
+    url: `/iotdb/time-series/data`,
     params: {
       path,
       limit,

@@ -11,12 +11,9 @@
         @select="tsPathSelected"
       />
     </n-input-group>
-    <v-chart
-      autoresize
-      :option="chartOption"
-      :style="{ width, height }"
-      class="flex-grow"
-    />
+    <n-flex justify="center">
+      <v-chart autoresize :option="chartOption" :style="{ width, height }" />
+    </n-flex>
   </n-card>
 </template>
 
@@ -38,7 +35,7 @@ setupECharts()
 const iotdbConfigStore = useIoTDBConfigStore()
 
 const width = '100%'
-const height = '20vh'
+const height = '40vh'
 const { t } = useI18n()
 const path = ref<string>('')
 const data = ref<Array<[bigint, number]>>([])
@@ -55,16 +52,32 @@ const chartOption = reactive<EChartsOption>({
   },
   xAxis: {
     type: 'time',
+    interval: 3600,
     axisLabel: {
-      formatter: '{yyyy}-{MM}-{dd}',
+      fontSize: 15,
+      formatter: {
+        year: '{yyyy}-{MM}-{dd}',
+        month: '{MM}-{dd}',
+        day: '{MM}-{dd}',
+        hour: '{HH}:{mm}',
+        minute: '{HH}:{mm}',
+        second: '{HH}:{mm}:{ss}',
+        // '{yyyy}-{MM}-{dd} {HH}:{mm}:{ss}'
+      },
     },
   },
   yAxis: {
     type: 'value',
+    axisLabel: {
+      fontSize: 15,
+    },
   },
   grid: {
-    left: '2%',
-    right: '2%',
+    left: '1%',
+    right: '1%',
+    bottom: '2%',
+    top: '8%',
+    containLabel: true,
   },
   series: [
     {
@@ -79,7 +92,7 @@ const chartOption = reactive<EChartsOption>({
   },
 })
 
-const numPoints = 100 // display the latest 1000 data points
+const numPoints = 100 // display the latest 100 data points
 const tsPath = ref('')
 const tsPaths = ref<string[]>([])
 const autoCompleteOptions = computed(() => {
@@ -93,7 +106,7 @@ async function tsPathUpdated(value: string | null) {
     return
   }
   // TODO: do not update if value doesn't change
-  const res = await getLatestTimeSeriesPaths(iotdbConfigStore.config.id, value)
+  const res = await getLatestTimeSeriesPaths(value)
   tsPaths.value = res.data
 }
 async function tsPathSelected(value: string) {
@@ -103,11 +116,7 @@ async function tsPathSelected(value: string) {
 
 async function getTSData() {
   try {
-    const res = await getTimeSeriesRecentData(
-      iotdbConfigStore.config.id,
-      path.value,
-      numPoints,
-    )
+    const res = await getTimeSeriesRecentData(path.value, numPoints)
     path.value = res.data.path
     tsPath.value = res.data.path
     data.value = res.data.points.map((item: TimeSeriesDataPointDto) => [

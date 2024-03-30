@@ -19,6 +19,7 @@ declare module '@vue/runtime-core' {
     NDataTable: (typeof import('naive-ui'))['NDataTable']
     NDropdown: (typeof import('naive-ui'))['NDropdown']
     NEmpty: (typeof import('naive-ui'))['NEmpty']
+    NFlex: (typeof import('naive-ui'))['NFlex']
     NFormItem: (typeof import('naive-ui'))['NFormItem']
     NGrid: (typeof import('naive-ui'))['NGrid']
     NGridItem: (typeof import('naive-ui'))['NGridItem']

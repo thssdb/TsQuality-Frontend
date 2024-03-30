@@ -14,7 +14,13 @@
     <div class="px-1 py-1">
       <n-skeleton v-if="isLoading" style="width: 100%" size="medium" />
       <div v-else class="text-3xl">
-        <n-number-animation :from="0" :to="content" />
+        <n-number-animation
+          :duration="1500"
+          :from="0"
+          :to="content"
+          :precision="precision"
+          :show-separator="showSeparator"
+        />
       </div>
     </div>
   </n-card>
@@ -41,6 +47,14 @@ defineProps({
   content: {
     type: Number,
     default: 0,
+  },
+  precision: {
+    type: Number,
+    default: 0,
+  },
+  showSeparator: {
+    type: Boolean,
+    default: false,
   },
   isLoading: {
     type: Boolean,

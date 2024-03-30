@@ -12,6 +12,7 @@
         :title="$t('dashboard.total_count.data_points.title')"
         :tag="$t('dashboard.total_count.data_points.tag')"
         :content="aggregationInfo.numDataPoints"
+        :show-separator="true"
         :is-loading="isAggregationInfoLoading"
       />
     </n-grid-item>
@@ -22,6 +23,7 @@
         :title="$t('dashboard.total_count.time_series.title')"
         :tag="$t('dashboard.total_count.time_series.tag')"
         :content="aggregationInfo.numTimeSeries"
+        :show-separator="true"
         :is-loading="isAggregationInfoLoading"
       />
     </n-grid-item>
@@ -32,6 +34,7 @@
         :title="$t('dashboard.total_count.device.title')"
         :tag="$t('dashboard.total_count.device.tag')"
         :content="aggregationInfo.numDevices"
+        :show-separator="true"
         :is-loading="isAggregationInfoLoading"
       />
     </n-grid-item>
@@ -42,6 +45,7 @@
         :title="$t('dashboard.total_count.database.title')"
         :tag="$t('dashboard.total_count.database.tag')"
         :content="aggregationInfo.numDatabases"
+        :show-separator="true"
         :is-loading="isAggregationInfoLoading"
       />
     </n-grid-item>
@@ -58,6 +62,7 @@
       <AggregationInfoItem
         :title="$t('global.data_quality.metrics.completeness')"
         :content="aggregationInfo.completeness"
+        :precision="3"
         :is-loading="isAggregationInfoLoading"
       />
     </n-grid-item>
@@ -66,6 +71,7 @@
       <AggregationInfoItem
         :title="$t('global.data_quality.metrics.consistency')"
         :content="aggregationInfo.consistency"
+        :precision="3"
         :is-loading="isAggregationInfoLoading"
       />
     </n-grid-item>
@@ -74,6 +80,7 @@
       <AggregationInfoItem
         :title="$t('global.data_quality.metrics.timeliness')"
         :content="aggregationInfo.timeliness"
+        :precision="3"
         :is-loading="isAggregationInfoLoading"
       />
     </n-grid-item>
@@ -82,6 +89,7 @@
       <AggregationInfoItem
         :title="$t('global.data_quality.metrics.validity')"
         :content="aggregationInfo.validity"
+        :precision="3"
         :is-loading="isAggregationInfoLoading"
       />
     </n-grid-item>
