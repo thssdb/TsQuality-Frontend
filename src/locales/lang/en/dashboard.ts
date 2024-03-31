@@ -18,6 +18,9 @@ export default {
   'dashboard.line_chart.tooltip': 'value',
 
   'dashboard.overview_table.title': 'Data Quality Overview',
+  'dashboard.overview_table.selection.timeseries': 'Time Series',
+  'dashboard.overview_table.selection.devices': 'Devices',
+  'dashboard.overview_table.selection.databases': 'Databases',
   'dashboard.overview_table.columns.no.title': 'No',
   'dashboard.overview_table.columns.name.title': 'Name',
   'dashboard.overview_table.columns.data_size.title': 'Data Size',

@@ -18,6 +18,9 @@ export default {
   'dashboard.line_chart.tooltip': '值',
 
   'dashboard.overview_table.title': '数据质量概览',
+  'dashboard.overview_table.selection.timeseries': '时间序列',
+  'dashboard.overview_table.selection.devices': '设备',
+  'dashboard.overview_table.selection.databases': '数据库',
   'dashboard.overview_table.columns.no.title': '序号',
   'dashboard.overview_table.columns.name.title': '名称',
   'dashboard.overview_table.columns.data_size.title': '数据量',

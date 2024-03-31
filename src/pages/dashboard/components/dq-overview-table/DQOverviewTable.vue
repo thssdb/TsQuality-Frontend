@@ -24,6 +24,7 @@ import { getDataQualityOverview } from '@/api/dashboard'
 import { onMounted, reactive, ref } from 'vue'
 import { DQOverviewStatDto } from '#/dto'
 import { DQOverviewItem, DQOverviewItemBuilder } from '@/models/dqOverviewItem'
+import { useI18n } from 'vue-i18n'
 
 defineProps({
   rows: {
@@ -32,11 +33,18 @@ defineProps({
   },
 })
 
+const { t } = useI18n()
 const dqType = ref<string>('time-series')
 const options = ref<SelectOption[]>([
-  { label: 'Time Series', value: 'time-series' },
-  { label: 'Devices', value: 'devices' },
-  { label: 'Databases', value: 'databases' },
+  {
+    label: t('dashboard.overview_table.selection.timeseries'),
+    value: 'time-series',
+  },
+  { label: t('dashboard.overview_table.selection.devices'), value: 'devices' },
+  {
+    label: t('dashboard.overview_table.selection.databases'),
+    value: 'databases',
+  },
 ])
 const loading = ref(false)
 const pagination = reactive({
