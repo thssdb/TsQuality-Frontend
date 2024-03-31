@@ -16,9 +16,17 @@ export async function getIoTDBAggregationInfo() {
   })
 }
 
-export async function getDataQualityOverview(type: string = 'time-series') {
-  return http.request<Array<DQOverviewDto>>({
+export async function getDataQualityOverview(
+  type: string = 'time-series',
+  pageSize: number = 10,
+  pageIndex: number,
+) {
+  return http.request<DQOverviewDto>({
     url: `/iotdb/${type}/overview`,
+    params: {
+      pageSize,
+      pageIndex,
+    },
   })
 }
 

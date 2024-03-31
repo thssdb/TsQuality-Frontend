@@ -6,7 +6,14 @@
       :options="options"
       @update:value="handleSelectValueUpdated"
     />
-    <n-data-table :columns="columns" :data="data" />
+    <n-data-table
+      remote
+      :loading="loading"
+      :columns="columns"
+      :data="data"
+      :pagination="pagination"
+      @update-page="handlePageChange"
+    />
   </n-card>
 </template>
 
@@ -14,9 +21,8 @@
 import { createColumns } from './table'
 import { SelectOption, useMessage } from 'naive-ui'
 import { getDataQualityOverview } from '@/api/dashboard'
-import { useIoTDBConfigStore } from '@/stores/iotdbConfig'
-import { onMounted, ref } from 'vue'
-import { DQOverviewDto } from '#/dto'
+import { onMounted, reactive, ref } from 'vue'
+import { DQOverviewStatDto } from '#/dto'
 import { DQOverviewItem, DQOverviewItemBuilder } from '@/models/dqOverviewItem'
 
 defineProps({
@@ -32,12 +38,30 @@ const options = ref<SelectOption[]>([
   { label: 'Devices', value: 'devices' },
   { label: 'Databases', value: 'databases' },
 ])
-function handleSelectValueUpdated(value: string) {
-  getOverview(value)
+const loading = ref(false)
+const pagination = reactive({
+  itemCount: 0,
+  pageSize: 10,
+  page: 1,
+  showSizePicker: true,
+  onChange: (page: number) => {
+    pagination.page = page
+  },
+  onUpdatePageSize: (pageSize: number) => {
+    pagination.pageSize = pageSize
+    pagination.page = 1
+  },
+})
+function handleSelectValueUpdated() {
+  getOverview()
+}
+
+function handlePageChange(page: number) {
+  pagination.page = page
+  getOverview()
 }
 
 const message = useMessage()
-const iotdbConfigStore = useIoTDBConfigStore()
 const columns = createColumns({
   click(row: DQOverviewItem) {
     message.info(`Click ${row.name}`)
@@ -49,12 +73,18 @@ function rounded(n: number): number {
   return Math.round(n * 1000) / 1000
 }
 
-async function getOverview(type: string = 'time-series') {
+async function getOverview() {
   try {
-    const res = await getDataQualityOverview(type)
-    data.value = res.data.map((x: DQOverviewDto, index: number) => {
+    loading.value = true
+    const res = await getDataQualityOverview(
+      dqType.value,
+      pagination.pageSize,
+      pagination.page,
+    )
+    pagination.itemCount = res.data.totalCount
+    data.value = res.data.stats.map((x: DQOverviewStatDto, index: number) => {
       return new DQOverviewItemBuilder()
-        .setId(index + 1)
+        .setId((pagination.page - 1) * pagination.pageSize + index + 1)
         .setDataSize(x.cnt)
         .setName(x.path)
         .setCompleteness(rounded(x.completeness))
@@ -63,8 +93,11 @@ async function getOverview(type: string = 'time-series') {
         .setValidity(rounded(x.validity))
         .build()
     })
+    console.log(data.value)
   } catch (err) {
     console.log(err)
+  } finally {
+    loading.value = false
   }
 }
 

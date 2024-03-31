@@ -1,8 +1,13 @@
 /** {@file dto.d.ts}: definitions from the backend  */
 
+export interface DQOverviewDto {
+  totalCount: bigint
+  stats: DQOverviewStatDto[]
+}
+
 // "export" is required to make the interface available in *.vue files
 // otherwise, it's only available in *.ts files
-export interface DQOverviewDto {
+export interface DQOverviewStatDto {
   cnt: bigint
   path: string
   device: string
