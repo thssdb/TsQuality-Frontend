@@ -85,7 +85,6 @@ function handleTabChange(name: string) {
 }
 
 function emitChangeEvent(name: DQAggregationType) {
-  console.log(data.value.get(name)?.distribution ?? DQDistribution.default())
   emits(
     'change',
     data.value.get(name)?.detail ?? [],

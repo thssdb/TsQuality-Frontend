@@ -13,4 +13,6 @@ export default {
 
   'global.empty_iotdb_config.description':
     'No IoTDB config found, try create a new one.',
+
+  'global.others.query': 'Query',
 }

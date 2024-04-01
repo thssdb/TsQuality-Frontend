@@ -13,4 +13,6 @@ export default {
 
   'global.empty_iotdb_config.description':
     '没有找到 IoTDB 配置，去创建一个吧。',
+
+  'global.others.query': '查询',
 }

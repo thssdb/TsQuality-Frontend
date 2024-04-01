@@ -32,14 +32,10 @@ const { t } = useI18n()
 
 const args = ref<string>('')
 
-const method = ref<string>('IQR')
+const method = ref<string>('Screen')
 const options = ref<SelectOption[]>([
-  { label: 'IQR', value: 'IQR' },
-  { label: 'KSigma', value: 'KSigma' },
-  { label: 'LOF', value: 'LOF' },
-  { label: 'Range', value: 'Range' },
-  { label: 'TwoSidedFilter', value: 'TwoSidedFilter' },
-  { label: 'Outlier', value: 'Outlier' },
+  { label: 'Screen', value: 'Screen' },
+  { label: 'LsGreedy', value: 'LsGreedy' },
 ])
 
 const columns = [

@@ -40,3 +40,8 @@ export interface DQAggregationDetailItemDto {
   timeliness: number
   validity: number
 }
+
+export interface TimestampAnomalyResponseDto {
+  originalData: Array<TimeSeriesDataPointDto>
+  repairedData: Array<TimeSeriesDataPointDto>
+}

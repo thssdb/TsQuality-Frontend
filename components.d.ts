@@ -17,6 +17,7 @@ declare module '@vue/runtime-core' {
     NCard: (typeof import('naive-ui'))['NCard']
     NConfigProvider: (typeof import('naive-ui'))['NConfigProvider']
     NDataTable: (typeof import('naive-ui'))['NDataTable']
+    NDatePicker: (typeof import('naive-ui'))['NDatePicker']
     NDropdown: (typeof import('naive-ui'))['NDropdown']
     NEmpty: (typeof import('naive-ui'))['NEmpty']
     NFlex: (typeof import('naive-ui'))['NFlex']
@@ -43,5 +44,7 @@ declare module '@vue/runtime-core' {
     NText: (typeof import('naive-ui'))['NText']
     RouterLink: (typeof import('vue-router'))['RouterLink']
     RouterView: (typeof import('vue-router'))['RouterView']
+    TimeSeriesPathAutoCompletion: (typeof import('./src/components/TimeSeriesPathAutoCompletion.vue'))['default']
+    TimeSeriesTimeRangePicker: (typeof import('./src/components/TimeSeriesTimeRangePicker.vue'))['default']
   }
 }
