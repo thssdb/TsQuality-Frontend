@@ -36,11 +36,10 @@ import { useI18n } from 'vue-i18n'
 import { onMounted, reactive, ref } from 'vue'
 import { EChartsOption } from 'echarts'
 import { SelectOption } from 'naive-ui'
-import { TimestampAnomalyRequestDto } from '@/models/timestampAnomaly'
+import { TimestampAnomalyRequestDto } from '@/models/anomaly'
 import { timestampAnomalyQuery } from '@/api/analysis/detail'
 import {
   CHART_FONT_SIZE,
-  GRID_OPTIONS,
   ORIGINAL_DATA_LINE_COLOR,
   REPAIRED_DATA_LINE_COLOR,
   X_AXIS_LABEL_FORMATTER,
@@ -111,7 +110,7 @@ const option = ref<EChartsOption>({
   },
   series: [
     {
-      name: t('analysis.detail.timestamp_anomaly.original_data'),
+      name: t('analysis.detail.anomaly.original_data'),
       type: 'line',
       data: originalData as unknown as object[],
       itemStyle: {
@@ -122,7 +121,7 @@ const option = ref<EChartsOption>({
       },
     },
     {
-      name: t('analysis.detail.timestamp_anomaly.repaired_data'),
+      name: t('analysis.detail.anomaly.repaired_data'),
       type: 'line',
       data: repairedData as unknown as object[],
       itemStyle: {

@@ -1,5 +1,6 @@
 <template>
   <n-date-picker
+    size="large"
     clearable
     type="datetimerange"
     @clear="onClear"

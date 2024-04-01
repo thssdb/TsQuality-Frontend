@@ -1,6 +1,9 @@
-import { TimestampAnomalyRequestDto } from '@/models/timestampAnomaly'
+import {
+  TimestampAnomalyRequestDto,
+  ValueAnomalyRequestDto,
+} from '@/models/anomaly'
 import { http } from '@/utils/axios'
-import { TimestampAnomalyResponseDto } from '#/dto'
+import { TimestampAnomalyResponseDto, ValueAnomalyResponseDto } from '#/dto'
 
 export async function timestampAnomalyQuery(
   request: TimestampAnomalyRequestDto,
@@ -15,6 +18,21 @@ export async function timestampAnomalyQuery(
       endTimestamp: request.endTimestamp,
       method: request.method,
       interval: request.interval,
+    },
+  })
+}
+
+export async function valueAnomalyQuery(request: ValueAnomalyRequestDto) {
+  return http.request<ValueAnomalyResponseDto>({
+    url: '/value-anomaly',
+    headers: { 'content-type': 'application/x-www-form-urlencoded' },
+    method: 'post',
+    data: {
+      path: request.path,
+      startTimestamp: request.startTimestamp,
+      endTimestamp: request.endTimestamp,
+      method: request.method,
+      args: request.args,
     },
   })
 }

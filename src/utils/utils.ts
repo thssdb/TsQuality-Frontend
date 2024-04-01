@@ -13,3 +13,15 @@ export function getQueryParam(url: string, key: string): string | null {
   }
   return null
 }
+
+export function stringToMap(input: string): Map<string, string> {
+  const result = new Map<string, string>()
+  const pairs = input.split(',').map((pair) => pair.trim())
+  pairs.forEach((pair) => {
+    const [key, value] = pair.split('=')
+    if (key && value) {
+      result.set(key.trim(), value.trim())
+    }
+  })
+  return result
+}

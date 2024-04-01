@@ -2,6 +2,7 @@
   <!--  <n-input-group>-->
   <n-auto-complete
     v-model:value="tsPath"
+    size="large"
     clearable
     :options="autoCompleteOptions"
     :placeholder="$t('dashboard.latest_data.path.placeholder')"

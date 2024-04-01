@@ -2,8 +2,8 @@ export const X_AXIS_LABEL_FORMATTER = {
   year: '{yyyy}-{MM}-{dd}',
   month: '{MM}-{dd}',
   day: '{MM}-{dd}',
-  hour: '{HH}:{mm}',
-  minute: '{HH}:{mm}',
+  hour: '{HH}:{mm}:{ss}',
+  minute: '{HH}:{mm}:{ss}',
   second: '{HH}:{mm}:{ss}',
 }
 

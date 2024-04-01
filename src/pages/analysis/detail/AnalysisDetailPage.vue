@@ -19,7 +19,11 @@
       :start-timestamp="startTimestamp"
       :end-timestamp="endTimestamp"
     />
-    <ValueAnomaliesChart />
+    <ValueAnomaliesChart
+      :path="path"
+      :start-timestamp="startTimestamp"
+      :end-timestamp="endTimestamp"
+    />
   </div>
 </template>
 

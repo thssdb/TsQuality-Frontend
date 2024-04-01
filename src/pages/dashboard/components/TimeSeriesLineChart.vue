@@ -17,11 +17,7 @@ import { useIoTDBConfigStore } from '@/stores/iotdbConfig'
 import { getTimeSeriesRecentData } from '@/api/dashboard'
 import { TimeSeriesDataPointDto } from '#/dto'
 import TimeSeriesPathAutoCompletion from '@/components/TimeSeriesPathAutoCompletion.vue'
-import {
-  CHART_FONT_SIZE,
-  GRID_OPTIONS,
-  X_AXIS_LABEL_FORMATTER,
-} from '@/common/constants'
+import { CHART_FONT_SIZE, X_AXIS_LABEL_FORMATTER } from '@/common/constants'
 
 setupECharts()
 
