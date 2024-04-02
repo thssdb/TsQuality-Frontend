@@ -7,7 +7,7 @@ export const X_AXIS_LABEL_FORMATTER = {
   second: '{HH}:{mm}:{ss}',
 }
 
-export const CHART_FONT_SIZE = 15
+export const CHART_FONT_SIZE = 30
 
 export const ORIGINAL_DATA_LINE_COLOR = '#ee6666'
 export const REPAIRED_DATA_LINE_COLOR = '#91cc75'

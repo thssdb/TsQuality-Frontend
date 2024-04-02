@@ -49,7 +49,7 @@ const options = ref<SelectOption[]>([
 const loading = ref(false)
 const pagination = reactive({
   itemCount: 0,
-  pageSize: 10,
+  pageSize: 5,
   page: 1,
   showSizePicker: true,
   onChange: (page: number) => {

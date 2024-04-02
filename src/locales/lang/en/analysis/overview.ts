@@ -1,7 +1,9 @@
 export default {
-  'analysis.overview.aggregation.data_size.tabs.day': 'Aggregate By Day',
-  'analysis.overview.aggregation.data_size.tabs.month': 'Aggregate By Month',
-  'analysis.overview.aggregation.data_size.tabs.year': 'Aggregate By Year',
+  'analysis.overview.aggregation.time_period.year': 'Aggregate By Year',
+  'analysis.overview.aggregation.time_period.month': 'Aggregate By Month',
+  'analysis.overview.aggregation.time_period.day': 'Aggregate By Day',
+  'analysis.overview.aggregation.time_period.hour': 'Aggregate By Hour',
+  'analysis.overview.aggregation.time_period.minute': 'Aggregate By Minute',
 
   'analysis.overview.aggregation.data_size.bar_chart.title': 'Data Size',
 

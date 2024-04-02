@@ -11,7 +11,7 @@
 <script setup lang="ts">
 const emit = defineEmits<{
   clear: []
-  select: [range: [number, number] | null]
+  select: [range: [number, number]]
 }>()
 
 function onClear() {

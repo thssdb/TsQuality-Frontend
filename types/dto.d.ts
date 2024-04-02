@@ -28,18 +28,8 @@ export interface TimeSeriesRecentDataDto {
   points: Array<TimeSeriesDataPointDto>
 }
 
-export interface DQAggregationDetailDto {
-  items: DQAggregationDetailItemDto[]
-}
-
-export interface DQAggregationDetailItemDto {
-  time: string
-  dataSize: bigint
-  completeness: number
-  consistency: number
-  timeliness: number
-  validity: number
-}
+export type AggregateDQDto = Map<string, number[]>
+export type DataSizeDistributionDto = Map<string, number>
 
 export interface TimestampAnomalyResponseDto {
   originalData: Array<TimeSeriesDataPointDto>

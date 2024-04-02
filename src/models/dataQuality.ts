@@ -25,3 +25,10 @@ export class AggregationInfo extends DQMetrics {
   numDevices: number = 0
   numDatabases: number = 0
 }
+
+export class AggregateDqRequestDto {
+  path: string = ''
+  type: string = '' // time period type
+  startTimestamp: number = 0
+  endTimestamp: number = 0
+}

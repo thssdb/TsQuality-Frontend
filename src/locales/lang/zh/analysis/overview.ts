@@ -1,7 +1,9 @@
 export default {
-  'analysis.overview.aggregation.data_size.tabs.day': '按日聚合',
-  'analysis.overview.aggregation.data_size.tabs.month': '按月聚合',
-  'analysis.overview.aggregation.data_size.tabs.year': '按年聚合',
+  'analysis.overview.aggregation.time_period.day': '按日聚合',
+  'analysis.overview.aggregation.time_period.month': '按月聚合',
+  'analysis.overview.aggregation.time_period.year': '按年聚合',
+  'analysis.overview.aggregation.time_period.hour': '按小时聚合',
+  'analysis.overview.aggregation.time_period.minute': '按分钟聚合',
 
   'analysis.overview.aggregation.data_size.bar_chart.title': '数据量',
 

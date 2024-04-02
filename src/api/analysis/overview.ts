@@ -1,12 +1,29 @@
 import { http } from '@/utils/axios'
-import { DQAggregationDetailDto } from '#/dto'
+import { AggregateDQDto } from '#/dto'
+import { AggregateDqRequestDto } from '@/models/dataQuality'
 
-export async function getDQAggregationDetail(type: string) {
-  return http.request<DQAggregationDetailDto>({
+export async function getDQAggregationDetail(request: AggregateDqRequestDto) {
+  return http.request<AggregateDQDto>({
     url: '/time-series/data-quality/aggregation',
     method: 'GET',
     params: {
-      type,
+      path: request.path,
+      type: request.type,
+      startTimestamp: request.startTimestamp,
+      endTimestamp: request.endTimestamp,
+    },
+  })
+}
+
+export async function getDataSizeDistribution(request: AggregateDqRequestDto) {
+  return http.request<AggregateDQDto>({
+    url: '/time-series/data-quality/data-size',
+    method: 'GET',
+    params: {
+      path: request.path,
+      type: request.type,
+      startTimestamp: request.startTimestamp,
+      endTimestamp: request.endTimestamp,
     },
   })
 }

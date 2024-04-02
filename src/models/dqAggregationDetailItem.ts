@@ -4,11 +4,11 @@ import { DQMetrics } from './dataQuality'
 // which is the data quality aggregated result of the time dimension
 export class DQAggregationDetailItem extends DQMetrics {
   time: string
-  dataSize: bigint
+  dataSize: number
 
   constructor(
     time: string,
-    dataSize: bigint,
+    dataSize: number,
     completeness: number,
     consistency: number,
     timeliness: number,
@@ -22,7 +22,7 @@ export class DQAggregationDetailItem extends DQMetrics {
 
 export class DQAggregationDetailItemBuilder {
   time: string = ''
-  dataSize: bigint = BigInt(0)
+  dataSize: number = 0
   completeness: number = 0
   consistency: number = 0
   timeliness: number = 0
@@ -33,7 +33,7 @@ export class DQAggregationDetailItemBuilder {
     return this
   }
 
-  setDataSize(dataSize: bigint): this {
+  setDataSize(dataSize: number): this {
     this.dataSize = dataSize
     return this
   }

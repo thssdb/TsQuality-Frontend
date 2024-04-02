@@ -1,17 +1,10 @@
 <template>
   <n-card>
-    <n-tabs type="line" animated>
-      <n-tab-pane
-        name="tab-result"
-        :tab="$t('analysis.overview.pie_chart.title')"
-      >
-        <n-grid x-gap="12" y-gap="8" responsive="screen" cols="1">
-          <n-grid-item>
-            <v-chart autoresize :option="option" :style="{ width, height }" />
-          </n-grid-item>
-        </n-grid>
-      </n-tab-pane>
-    </n-tabs>
+    <n-grid x-gap="12" y-gap="8" responsive="screen" cols="1">
+      <n-grid-item>
+        <v-chart autoresize :option="option" :style="{ width, height }" />
+      </n-grid-item>
+    </n-grid>
   </n-card>
 </template>
 
@@ -28,6 +21,7 @@ import {
   OptionSourceDataArrayRows,
 } from 'echarts/types/src/util/types'
 import { useI18n } from 'vue-i18n'
+import { CHART_FONT_SIZE } from '@/common/constants'
 
 const props = defineProps({
   distribution: {
@@ -39,7 +33,7 @@ const props = defineProps({
 setupECharts()
 
 const width = '100%'
-const height = '60vh'
+const height = '80vh'
 
 const centers = [
   ['25%', '30%'],
@@ -67,6 +61,7 @@ const series: SeriesOption[] = Object.values(MetricEnum).map(
       label: {
         position: 'inner',
         formatter: '{d}%',
+        fontSize: CHART_FONT_SIZE,
       },
     }
   },
@@ -110,8 +105,18 @@ const source = computed(() => dqDistributionToSource())
 
 const option = ref<EChartsOption>({
   series,
-  legend: {},
-  tooltip: {},
+  legend: {
+    show: true,
+    textStyle: {
+      fontSize: CHART_FONT_SIZE,
+    },
+  },
+  tooltip: {
+    show: true,
+    textStyle: {
+      fontSize: CHART_FONT_SIZE,
+    },
+  },
   label: {
     show: true,
     position: 'center',

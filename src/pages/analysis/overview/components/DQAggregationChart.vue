@@ -14,29 +14,17 @@
 <script setup lang="ts">
 import VChart from 'vue-echarts'
 import { setupECharts } from '@/utils/lib/echarts'
-import { computed, onMounted, PropType, reactive } from 'vue'
+import { computed, PropType, reactive } from 'vue'
 import { EChartsOption } from 'echarts'
 import { useI18n } from 'vue-i18n'
 import { DQAggregationDetailItem } from '@/models/dqAggregationDetailItem'
-import { DQAggregationType } from '@/models/dqAggregationType'
+import { CHART_FONT_SIZE, X_AXIS_LABEL_FORMATTER } from '@/common/constants'
 
 const props = defineProps({
-  type: {
-    type: String as PropType<DQAggregationType>,
-    required: true,
-  },
   data: {
     type: Object as PropType<DQAggregationDetailItem[]>,
     required: true,
   },
-})
-
-const emits = defineEmits<{
-  load: [type: DQAggregationType]
-}>()
-
-onMounted(() => {
-  emits('load', props.type)
 })
 
 setupECharts()
@@ -44,7 +32,7 @@ setupECharts()
 const { t } = useI18n()
 
 const width = '100%'
-const height = '30vh'
+const height = '40vh'
 
 const dataSizeXAxisData = computed(() => {
   return props.data?.map((item) => item.time) ?? []
@@ -56,11 +44,25 @@ const dataSizeBarChartOption = reactive<EChartsOption>({
   title: {
     left: 'center',
     text: t('analysis.overview.aggregation.data_size.bar_chart.title'),
+    textStyle: {
+      fontSize: CHART_FONT_SIZE,
+    },
   },
   xAxis: {
     data: dataSizeXAxisData as unknown as string[],
+    axisLabel: {
+      fontSize: CHART_FONT_SIZE,
+      formatter: X_AXIS_LABEL_FORMATTER,
+    },
   },
-  yAxis: {},
+  yAxis: {
+    nameTextStyle: {
+      fontSize: CHART_FONT_SIZE,
+    },
+    axisLabel: {
+      fontSize: CHART_FONT_SIZE,
+    },
+  },
   series: {
     type: 'bar',
     name: t('analysis.overview.aggregation.data_size.bar_chart.title'),
@@ -69,9 +71,13 @@ const dataSizeBarChartOption = reactive<EChartsOption>({
   grid: {
     left: '2%',
     right: '2%',
+    containLabel: true,
   },
   tooltip: {
     show: true,
+    textStyle: {
+      fontSize: CHART_FONT_SIZE,
+    },
   },
 })
 
@@ -106,11 +112,22 @@ const dataQualityBarChartOption = reactive<EChartsOption>({
   title: {
     left: 'center',
     text: t('analysis.overview.aggregation.data_quality.bar_chart.title'),
+    textStyle: {
+      fontSize: CHART_FONT_SIZE,
+    },
   },
   xAxis: {
     data: dataQualityXAxisData as unknown as string[],
+    axisLabel: {
+      fontSize: CHART_FONT_SIZE,
+      formatter: X_AXIS_LABEL_FORMATTER,
+    },
   },
-  yAxis: {},
+  yAxis: {
+    axisLabel: {
+      fontSize: CHART_FONT_SIZE,
+    },
+  },
   series: [
     {
       type: 'bar',
@@ -135,6 +152,19 @@ const dataQualityBarChartOption = reactive<EChartsOption>({
   ],
   tooltip: {
     show: true,
+    textStyle: {
+      fontSize: CHART_FONT_SIZE,
+    },
+  },
+  grid: {
+    containLabel: true,
+  },
+  legend: {
+    y: 'bottom',
+    show: true,
+    textStyle: {
+      fontSize: CHART_FONT_SIZE,
+    },
   },
 })
 </script>
