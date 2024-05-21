@@ -61,7 +61,6 @@ const series: SeriesOption[] = Object.values(MetricEnum).map(
       label: {
         position: 'inner',
         formatter: '{d}%',
-        fontSize: CHART_FONT_SIZE,
       },
     }
   },
@@ -107,15 +106,9 @@ const option = ref<EChartsOption>({
   series,
   legend: {
     show: true,
-    textStyle: {
-      fontSize: CHART_FONT_SIZE,
-    },
   },
   tooltip: {
     show: true,
-    textStyle: {
-      fontSize: CHART_FONT_SIZE,
-    },
   },
   label: {
     show: true,

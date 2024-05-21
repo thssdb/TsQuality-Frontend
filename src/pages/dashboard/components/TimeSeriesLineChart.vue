@@ -43,15 +43,11 @@ const chartOption = reactive<EChartsOption>({
     type: 'time',
     interval: 3600,
     axisLabel: {
-      fontSize: CHART_FONT_SIZE,
       formatter: X_AXIS_LABEL_FORMATTER,
     },
   },
   yAxis: {
     type: 'value',
-    axisLabel: {
-      fontSize: CHART_FONT_SIZE,
-    },
   },
   grid: {
     left: '1%',

@@ -14,6 +14,10 @@
       </n-flex>
     </n-flex>
 
+    <n-flex justify="center" size="large">
+      <TimeSeriesTimeOverview :path="path" />
+    </n-flex>
+
     <TimestampAnomaliesChart
       :path="path"
       :start-timestamp="startTimestamp"
@@ -34,6 +38,7 @@ import ValueAnomaliesChart from './components/value-anomaly/ValueAnomaliesChart.
 import TimeSeriesTimeRangePicker from '@/components/TimeSeriesTimeRangePicker.vue'
 import TimeSeriesPathAutoCompletion from '@/components/TimeSeriesPathAutoCompletion.vue'
 import { ref } from 'vue'
+import TimeSeriesTimeOverview from '@/components/TimeSeriesTimeOverview.vue'
 
 setupECharts()
 

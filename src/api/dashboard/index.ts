@@ -1,6 +1,16 @@
 import { http } from '@/utils/axios'
 import { AggregationInfo } from '@/models/dataQuality'
-import { DQOverviewDto, TimeSeriesRecentDataDto } from '#/dto'
+import {
+  DQOverviewDto,
+  PreAggregationProgressDto,
+  TimeSeriesRecentDataDto,
+} from '#/dto'
+
+export async function getPreAggregationProgress() {
+  return http.request<PreAggregationProgressDto>({
+    url: '/pre-aggregation/progress',
+  })
+}
 
 export async function getIoTDBConfigId(ic: IoTDBConfig) {
   return http.request<number>({

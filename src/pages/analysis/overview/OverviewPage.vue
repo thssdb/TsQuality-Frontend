@@ -20,6 +20,10 @@
       </n-button>
     </n-flex>
 
+    <n-flex justify="center" size="large">
+      <TimeSeriesTimeOverview :path="path" />
+    </n-flex>
+
     <div class="mt-4">
       <n-card>
         <n-grid x-gap="12" responsive="screen" cols="2 s:1 m:2 l:2 xl:2 2xl:2">
@@ -56,6 +60,7 @@ import { TimePeriodType } from '@/models/timePeriodType'
 import DQAggregationChart from '@/pages/analysis/overview/components/DQAggregationChart.vue'
 import { MetricEnum } from '@/enums/metricEnum'
 import { DQDistribution, DQDistributionItem } from '@/models/dqDistribution'
+import TimeSeriesTimeOverview from '@/components/TimeSeriesTimeOverview.vue'
 
 const { t } = useI18n()
 

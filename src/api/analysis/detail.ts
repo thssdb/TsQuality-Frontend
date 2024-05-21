@@ -3,7 +3,19 @@ import {
   ValueAnomalyRequestDto,
 } from '@/models/anomaly'
 import { http } from '@/utils/axios'
-import { TimestampAnomalyResponseDto, ValueAnomalyResponseDto } from '#/dto'
+import {
+  TimeSeriesTimeOverviewDto,
+  TimestampAnomalyResponseDto,
+  ValueAnomalyResponseDto,
+} from '#/dto'
+
+export async function getTimeseriesTimeOverview(path: string) {
+  return http.request<TimeSeriesTimeOverviewDto>({
+    url: '/time-series/overview',
+    method: 'get',
+    params: { path },
+  })
+}
 
 export async function timestampAnomalyQuery(
   request: TimestampAnomalyRequestDto,

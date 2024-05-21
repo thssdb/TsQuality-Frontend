@@ -1,4 +1,5 @@
 export default {
+  'dashboard.pre_aggregation.progress.title': '数据质量元数据计算进度',
   'dashboard.empty.button.name': '创建',
 
   'dashboard.total_count.data_points.title': '数据点总数',

@@ -24,6 +24,7 @@ declare module '@vue/runtime-core' {
     NFormItem: (typeof import('naive-ui'))['NFormItem']
     NGrid: (typeof import('naive-ui'))['NGrid']
     NGridItem: (typeof import('naive-ui'))['NGridItem']
+    NH2: (typeof import('naive-ui'))['NH2']
     NIcon: (typeof import('naive-ui'))['NIcon']
     NInput: (typeof import('naive-ui'))['NInput']
     NInputGroup: (typeof import('naive-ui'))['NInputGroup']
@@ -35,6 +36,7 @@ declare module '@vue/runtime-core' {
     NMenu: (typeof import('naive-ui'))['NMenu']
     NNumberAnimation: (typeof import('naive-ui'))['NNumberAnimation']
     NPagination: (typeof import('naive-ui'))['NPagination']
+    NProgress: (typeof import('naive-ui'))['NProgress']
     NSelect: (typeof import('naive-ui'))['NSelect']
     NSkeleton: (typeof import('naive-ui'))['NSkeleton']
     NSpace: (typeof import('naive-ui'))['NSpace']
@@ -45,6 +47,7 @@ declare module '@vue/runtime-core' {
     RouterLink: (typeof import('vue-router'))['RouterLink']
     RouterView: (typeof import('vue-router'))['RouterView']
     TimeSeriesPathAutoCompletion: (typeof import('./src/components/TimeSeriesPathAutoCompletion.vue'))['default']
+    TimeSeriesTimeOverview: (typeof import('./src/components/TimeSeriesTimeOverview.vue'))['default']
     TimeSeriesTimeRangePicker: (typeof import('./src/components/TimeSeriesTimeRangePicker.vue'))['default']
   }
 }

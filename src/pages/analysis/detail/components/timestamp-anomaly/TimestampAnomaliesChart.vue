@@ -39,7 +39,6 @@ import { SelectOption } from 'naive-ui'
 import { TimestampAnomalyRequestDto } from '@/models/anomaly'
 import { timestampAnomalyQuery } from '@/api/analysis/detail'
 import {
-  CHART_FONT_SIZE,
   ORIGINAL_DATA_LINE_COLOR,
   REPAIRED_DATA_LINE_COLOR,
   X_AXIS_LABEL_FORMATTER,
@@ -82,17 +81,10 @@ const option = ref<EChartsOption>({
   xAxis: {
     type: 'time',
     axisLabel: {
-      fontSize: CHART_FONT_SIZE,
       formatter: X_AXIS_LABEL_FORMATTER,
     },
   },
   yAxis: {
-    nameTextStyle: {
-      fontSize: CHART_FONT_SIZE,
-    },
-    axisLabel: {
-      fontSize: CHART_FONT_SIZE,
-    },
     name: t('analysis.detail.timestamp_anomaly.chart.yaxis.name'),
   },
   grid: {
@@ -104,9 +96,6 @@ const option = ref<EChartsOption>({
   },
   legend: {
     show: true,
-    textStyle: {
-      fontSize: CHART_FONT_SIZE,
-    },
   },
   series: [
     {

@@ -1,5 +1,9 @@
 /** {@file dto.d.ts}: definitions from the backend  */
 
+export interface PreAggregationProgressDto {
+  totalFileCount: bigint
+  processedFileCount: bigint
+}
 export interface DQOverviewDto {
   totalCount: bigint
   stats: DQOverviewStatDto[]
@@ -31,13 +35,18 @@ export interface TimeSeriesRecentDataDto {
 export type AggregateDQDto = Map<string, number[]>
 export type DataSizeDistributionDto = Map<string, number>
 
+export interface TimeSeriesTimeOverviewDto {
+  count: bigint
+  minTimestamp: bigint
+  maxTimestamp: bigint
+}
+
 export interface TimestampAnomalyResponseDto {
   originalData: Array<TimeSeriesDataPointDto>
   repairedData: Array<TimeSeriesDataPointDto>
 }
 
 export type ValueAnomalyResponseDto = ValueAnomalyResponseItemDto[]
-
 export interface ValueAnomalyResponseItemDto {
   timestamp: bigint
   original: number

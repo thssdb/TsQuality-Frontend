@@ -44,22 +44,15 @@ const dataSizeBarChartOption = reactive<EChartsOption>({
   title: {
     left: 'center',
     text: t('analysis.overview.aggregation.data_size.bar_chart.title'),
-    textStyle: {
-      fontSize: CHART_FONT_SIZE,
-    },
   },
   xAxis: {
     data: dataSizeXAxisData as unknown as string[],
     axisLabel: {
-      fontSize: CHART_FONT_SIZE,
       formatter: X_AXIS_LABEL_FORMATTER,
     },
   },
   yAxis: {
     nameTextStyle: {
-      fontSize: CHART_FONT_SIZE,
-    },
-    axisLabel: {
       fontSize: CHART_FONT_SIZE,
     },
   },
@@ -75,9 +68,6 @@ const dataSizeBarChartOption = reactive<EChartsOption>({
   },
   tooltip: {
     show: true,
-    textStyle: {
-      fontSize: CHART_FONT_SIZE,
-    },
   },
 })
 
@@ -112,22 +102,14 @@ const dataQualityBarChartOption = reactive<EChartsOption>({
   title: {
     left: 'center',
     text: t('analysis.overview.aggregation.data_quality.bar_chart.title'),
-    textStyle: {
-      fontSize: CHART_FONT_SIZE,
-    },
   },
   xAxis: {
     data: dataQualityXAxisData as unknown as string[],
     axisLabel: {
-      fontSize: CHART_FONT_SIZE,
       formatter: X_AXIS_LABEL_FORMATTER,
     },
   },
-  yAxis: {
-    axisLabel: {
-      fontSize: CHART_FONT_SIZE,
-    },
-  },
+  yAxis: {},
   series: [
     {
       type: 'bar',
@@ -152,9 +134,6 @@ const dataQualityBarChartOption = reactive<EChartsOption>({
   ],
   tooltip: {
     show: true,
-    textStyle: {
-      fontSize: CHART_FONT_SIZE,
-    },
   },
   grid: {
     containLabel: true,
@@ -162,9 +141,6 @@ const dataQualityBarChartOption = reactive<EChartsOption>({
   legend: {
     y: 'bottom',
     show: true,
-    textStyle: {
-      fontSize: CHART_FONT_SIZE,
-    },
   },
 })
 </script>

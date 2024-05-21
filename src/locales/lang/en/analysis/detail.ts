@@ -1,4 +1,8 @@
 export default {
+  'analysis.detail.timeseries.time_overview.count': 'Data size: ',
+  'analysis.detail.timeseries.time_overview.min_time': 'Min time: ',
+  'analysis.detail.timeseries.time_overview.max_time': 'Max time: ',
+
   'analysis.detail.anomaly.original_data': 'Original Data',
   'analysis.detail.anomaly.repaired_data': 'Repaired Data',
 
