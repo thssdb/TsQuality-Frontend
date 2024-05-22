@@ -14,7 +14,6 @@
         v-model:value="request.method"
         class="w-36 ml-4"
         :options="methodOptions"
-        @update:value="handleMethodValueUpdated"
       >
       </n-select>
       <n-button class="ml-4" type="primary" @click="query">
@@ -66,9 +65,9 @@ const request = reactive<TimestampAnomalyRequestDto>(
   new TimestampAnomalyRequestDto(),
 )
 const methodOptions = ref<SelectOption[]>([
-  { label: 'Median', value: 'median' },
-  { label: 'Mode', value: 'mode' },
-  { label: 'Cluster', value: 'cluster' },
+  { label: 'Median', value: 'Median' },
+  { label: 'Mode', value: 'Mode' },
+  { label: 'Cluster', value: 'Cluster' },
 ])
 
 const originalData = ref<Array<[bigint, number]>>([])
@@ -122,7 +121,7 @@ const option = ref<EChartsOption>({
     },
   ],
   dataZoom: {
-    type: 'inside',
+    type: 'slider',
     filterMode: 'filter',
     xAxisIndex: [0],
   },
@@ -137,10 +136,6 @@ onMounted(() => {
 
 function intervalValidator(x: number): boolean {
   return Number.isInteger(x) && x > 0
-}
-
-function handleMethodValueUpdated(value: string) {
-  console.log(value)
 }
 
 async function query() {

@@ -1,5 +1,4 @@
 <template>
-  <!--  <n-input-group>-->
   <n-auto-complete
     v-model:value="tsPath"
     size="large"
@@ -8,12 +7,12 @@
     :placeholder="$t('dashboard.latest_data.path.placeholder')"
     @update:value="onUpdate"
   />
-  <!--  </n-input-group>-->
 </template>
 
 <script setup lang="ts">
 import { computed, ref } from 'vue'
 import { getLatestTimeSeriesPaths } from '@/api/dashboard'
+import { isValidTimeSeriesPrefix } from '@/common/timeseries_util'
 
 const emit = defineEmits<{
   select: [path: string]
@@ -28,15 +27,11 @@ const autoCompleteOptions = computed(() => {
   }))
 })
 
-async function onUpdate(value: string | null) {
-  if (value == null) {
+async function onUpdate(value: string) {
+  if (!isValidTimeSeriesPrefix(value)) {
     return
   }
   emit('select', value)
-  if (!value.startsWith('root')) {
-    return
-  }
-  // TODO: do not update if value doesn't change
   const res = await getLatestTimeSeriesPaths(value)
   tsPaths.value = res.data
 }

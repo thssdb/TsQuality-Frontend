@@ -1,7 +1,7 @@
 <template>
   <n-flex vertical align="center">
     <n-h2>{{ t('dashboard.pre_aggregation.progress.title') }}</n-h2>
-    <n-progress type="circle" :percentage="percentage" />
+    <n-progress type="circle" :percentage="+percentage.toFixed(3)" />
   </n-flex>
 </template>
 

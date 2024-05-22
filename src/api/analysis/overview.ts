@@ -9,8 +9,8 @@ export async function getDQAggregationDetail(request: AggregateDqRequestDto) {
     params: {
       path: request.path,
       type: request.type,
-      startTimestamp: request.startTimestamp,
-      endTimestamp: request.endTimestamp,
+      startTime: request.startTimestamp,
+      endTime: request.endTimestamp,
     },
   })
 }
@@ -22,8 +22,8 @@ export async function getDataSizeDistribution(request: AggregateDqRequestDto) {
     params: {
       path: request.path,
       type: request.type,
-      startTimestamp: request.startTimestamp,
-      endTimestamp: request.endTimestamp,
+      startTime: request.startTimestamp,
+      endTime: request.endTimestamp,
     },
   })
 }

@@ -101,7 +101,6 @@ async function getOverview() {
         .setValidity(rounded(x.validity))
         .build()
     })
-    console.log(data.value)
   } catch (err) {
     console.log(err)
   } finally {

@@ -45,7 +45,6 @@ onUpdated(async () => {
     return
   }
   const res = await getTimeseriesTimeOverview(props.path)
-  console.log(res)
   count.value = res.data.count
   minTimestamp.value = res.data.minTimestamp
   maxTimestamp.value = res.data.maxTimestamp

@@ -37,7 +37,6 @@ import { SelectOption } from 'naive-ui'
 import { ValueAnomalyRequestDto } from '@/models/anomaly'
 import { valueAnomalyQuery } from '@/api/analysis/detail'
 import {
-  CHART_FONT_SIZE,
   ORIGINAL_DATA_LINE_COLOR,
   REPAIRED_DATA_LINE_COLOR,
   X_AXIS_LABEL_FORMATTER,
@@ -118,7 +117,7 @@ const option = ref<EChartsOption>({
     },
   ],
   dataZoom: {
-    type: 'inside',
+    type: 'slider',
     filterMode: 'filter',
     xAxisIndex: [0],
   },
@@ -145,8 +144,6 @@ async function query() {
       return [item.timestamp, item.repaired]
     },
   )
-  console.log(originalData.value)
-  console.log(repairedData.value)
 }
 
 function setupRequest() {

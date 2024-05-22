@@ -46,7 +46,9 @@ export interface TimestampAnomalyResponseDto {
   repairedData: Array<TimeSeriesDataPointDto>
 }
 
-export type ValueAnomalyResponseDto = ValueAnomalyResponseItemDto[]
+export type ValueAnomalyResponseDto = {
+  data: Array<ValueAnomalyResponseItemDto>
+}
 export interface ValueAnomalyResponseItemDto {
   timestamp: bigint
   original: number
